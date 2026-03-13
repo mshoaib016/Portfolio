@@ -237,7 +237,6 @@
         grid-template-columns: 1.2fr 1fr;
         gap: 100px;
         align-items: center;
-        padding: 60px 0;
       }
 
       .hero-content {
@@ -608,9 +607,9 @@
         gap: 8px;
         padding: 12px;
         background: var(--surface-hover);
-        border: 1px solid var(--border);
+        border: 1px solid var(--accent);
         border-radius: 8px;
-        color: var(--text-secondary);
+        color: var(--accent);
         text-decoration: none;
         font-size: 0.9rem;
         font-weight: 500;
@@ -1001,18 +1000,7 @@
         transition: stroke-dashoffset 2s ease-in-out;
       }
 
-      .progress-bar.figma {
-        stroke: #00d4ff;
-      }
-      .progress-bar.vision {
-        stroke: #ff3366;
-      }
-      .progress-bar.sketch {
-        stroke: #f7b731;
-      }
-      .progress-bar.cloud {
-        stroke: #00ff88;
-      }
+      /* Original Colors */
       .progress-bar.react {
         stroke: #61dafb;
       }
@@ -1024,6 +1012,44 @@
       }
       .progress-bar.ts {
         stroke: #3178c6;
+      }
+
+      /* New Skills Colors */
+      .progress-bar.html {
+        stroke: #e34c26;
+      }
+      .progress-bar.css {
+        stroke: #264de4;
+      }
+      .progress-bar.shopify {
+        stroke: #96bf48;
+      }
+      .progress-bar.wordpress {
+        stroke: #21759b;
+      }
+      .progress-bar.ebay {
+        stroke: #e53238;
+      }
+      .progress-bar.amazon {
+        stroke: #ff9900;
+      }
+      .progress-bar.walmart {
+        stroke: #0071ce;
+      }
+      .progress-bar.social {
+        stroke: #ff6b6b;
+      }
+      .progress-bar.digital {
+        stroke: #9b59b6;
+      }
+      .progress-bar.meta {
+        stroke: #0668e1;
+      }
+      .progress-bar.tiktok {
+        stroke: #ff0050;
+      }
+      .progress-bar.content {
+        stroke: #2ecc71;
       }
 
       .progress-content {
@@ -1048,25 +1074,7 @@
         color: white;
       }
 
-      .skill-icon.figma {
-        background: linear-gradient(
-          135deg,
-          #f24e1e,
-          #ff7262,
-          #a259ff,
-          #1abcfe,
-          #0acf83
-        );
-      }
-      .skill-icon.vision {
-        background: #ff3366;
-      }
-      .skill-icon.sketch {
-        background: #f7b731;
-      }
-      .skill-icon.cloud {
-        background: #ff6b6b;
-      }
+      /* Original Icons */
       .skill-icon.react {
         background: #61dafb;
         color: #000;
@@ -1080,6 +1088,46 @@
       }
       .skill-icon.ts {
         background: #3178c6;
+      }
+
+      /* New Skills Icons */
+      .skill-icon.html {
+        background: #e34c26;
+      }
+      .skill-icon.css {
+        background: #264de4;
+      }
+      .skill-icon.shopify {
+        background: #96bf48;
+        color: #000;
+      }
+      .skill-icon.wordpress {
+        background: #21759b;
+      }
+      .skill-icon.ebay {
+        background: #e53238;
+      }
+      .skill-icon.amazon {
+        background: #ff9900;
+        color: #000;
+      }
+      .skill-icon.walmart {
+        background: #0071ce;
+      }
+      .skill-icon.social {
+        background: #ff6b6b;
+      }
+      .skill-icon.digital {
+        background: #9b59b6;
+      }
+      .skill-icon.meta {
+        background: #0668e1;
+      }
+      .skill-icon.tiktok {
+        background: #ff0050;
+      }
+      .skill-icon.content {
+        background: #2ecc71;
       }
 
       .skill-percent {
@@ -1542,7 +1590,7 @@
               <span class="terminal-dot dot-red"></span>
               <span class="terminal-dot dot-yellow"></span>
               <span class="terminal-dot dot-green"></span>
-              <span class="terminal-title">about.js — ~/portfolio</span>
+              <span class="terminal-title">about.Shoaib — ~/portfolio</span>
             </div>
             <div class="terminal-body">
               <div class="code-line">
@@ -1637,12 +1685,12 @@
               <span class="tech-tag">CSS</span>
               <span class="tech-tag">JavaScript</span>
               <span class="tech-tag">React</span>
-              <span class="tech-tag">Node.js</span>
-              <span class="tech-tag">TypeScript</span>
-              <span class="tech-tag">PostgreSQL</span>
-              <span class="tech-tag">AWS</span>
-              <span class="tech-tag">Docker</span>
-              <span class="tech-tag">GraphQL</span>
+              <span class="tech-tag">Shopify</span>
+              <span class="tech-tag">WordPress</span>
+              <span class="tech-tag">Amazon</span>
+              <span class="tech-tag">Meta Ads</span>
+              <span class="tech-tag">Digital Marketing</span>
+              <span class="tech-tag">TikTok Ads</span>
             </div>
 
             <div class="social-links">
@@ -1739,7 +1787,7 @@
               <svg viewBox="0 0 120 120">
                 <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
                 <circle
-                  class="progress-bar react"
+                  class="progress-bar html"
                   cx="60"
                   cy="60"
                   r="52"
@@ -1747,13 +1795,13 @@
                 ></circle>
               </svg>
               <div class="progress-content">
-                <div class="skill-icon react">
+                <div class="skill-icon html">
                   <i class="fab fa-html5"></i>
                 </div>
-                <span class="skill-percent">100%</span>
+                <span class="skill-percent">92%</span>
               </div>
             </div>
-            <h3 class="skill-name">HTML/CSS</h3>
+            <h3 class="skill-name">HTML</h3>
           </div>
 
           <!-- Skill 2: CSS -->
@@ -1762,7 +1810,7 @@
               <svg viewBox="0 0 120 120">
                 <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
                 <circle
-                  class="progress-bar node"
+                  class="progress-bar css"
                   cx="60"
                   cy="60"
                   r="52"
@@ -1770,10 +1818,10 @@
                 ></circle>
               </svg>
               <div class="progress-content">
-                <div class="skill-icon node">
+                <div class="skill-icon css">
                   <i class="fab fa-css3-alt"></i>
                 </div>
-                <span class="skill-percent">100%</span>
+                <span class="skill-percent">85%</span>
               </div>
             </div>
             <h3 class="skill-name">CSS</h3>
@@ -1823,6 +1871,236 @@
               </div>
             </div>
             <h3 class="skill-name">TypeScript</h3>
+          </div>
+
+          <!-- Skill 5: Shopify -->
+          <div class="skill-card">
+            <div class="circular-progress">
+              <svg viewBox="0 0 120 120">
+                <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
+                <circle
+                  class="progress-bar shopify"
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  data-percent="90"
+                ></circle>
+              </svg>
+              <div class="progress-content">
+                <div class="skill-icon shopify">
+                  <i class="fab fa-shopify"></i>
+                </div>
+                <span class="skill-percent">90%</span>
+              </div>
+            </div>
+            <h3 class="skill-name">Shopify</h3>
+          </div>
+
+          <!-- Skill 6: WordPress -->
+          <div class="skill-card">
+            <div class="circular-progress">
+              <svg viewBox="0 0 120 120">
+                <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
+                <circle
+                  class="progress-bar wordpress"
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  data-percent="88"
+                ></circle>
+              </svg>
+              <div class="progress-content">
+                <div class="skill-icon wordpress">
+                  <i class="fab fa-wordpress"></i>
+                </div>
+                <span class="skill-percent">88%</span>
+              </div>
+            </div>
+            <h3 class="skill-name">WordPress</h3>
+          </div>
+
+          <!-- Skill 7: eBay -->
+          <div class="skill-card">
+            <div class="circular-progress">
+              <svg viewBox="0 0 120 120">
+                <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
+                <circle
+                  class="progress-bar ebay"
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  data-percent="85"
+                ></circle>
+              </svg>
+              <div class="progress-content">
+                <div class="skill-icon ebay">
+                  <i class="fab fa-ebay"></i>
+                </div>
+                <span class="skill-percent">85%</span>
+              </div>
+            </div>
+            <h3 class="skill-name">eBay</h3>
+          </div>
+
+          <!-- Skill 8: Amazon -->
+          <div class="skill-card">
+            <div class="circular-progress">
+              <svg viewBox="0 0 120 120">
+                <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
+                <circle
+                  class="progress-bar amazon"
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  data-percent="92"
+                ></circle>
+              </svg>
+              <div class="progress-content">
+                <div class="skill-icon amazon">
+                  <i class="fab fa-amazon"></i>
+                </div>
+                <span class="skill-percent">92%</span>
+              </div>
+            </div>
+            <h3 class="skill-name">Amazon</h3>
+          </div>
+
+          <!-- Skill 9: Walmart -->
+          <div class="skill-card">
+            <div class="circular-progress">
+              <svg viewBox="0 0 120 120">
+                <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
+                <circle
+                  class="progress-bar walmart"
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  data-percent="80"
+                ></circle>
+              </svg>
+              <div class="progress-content">
+                <div class="skill-icon walmart">
+                  <i class="fas fa-shopping-cart"></i>
+                </div>
+                <span class="skill-percent">80%</span>
+              </div>
+            </div>
+            <h3 class="skill-name">Walmart</h3>
+          </div>
+
+          <!-- Skill 10: Social Media Marketing -->
+          <div class="skill-card">
+            <div class="circular-progress">
+              <svg viewBox="0 0 120 120">
+                <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
+                <circle
+                  class="progress-bar social"
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  data-percent="95"
+                ></circle>
+              </svg>
+              <div class="progress-content">
+                <div class="skill-icon social">
+                  <i class="fas fa-hashtag"></i>
+                </div>
+                <span class="skill-percent">95%</span>
+              </div>
+            </div>
+            <h3 class="skill-name">Social Media Marketing</h3>
+          </div>
+
+          <!-- Skill 11: Digital Marketing -->
+          <div class="skill-card">
+            <div class="circular-progress">
+              <svg viewBox="0 0 120 120">
+                <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
+                <circle
+                  class="progress-bar digital"
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  data-percent="93"
+                ></circle>
+              </svg>
+              <div class="progress-content">
+                <div class="skill-icon digital">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <span class="skill-percent">93%</span>
+              </div>
+            </div>
+            <h3 class="skill-name">Digital Marketing</h3>
+          </div>
+
+          <!-- Skill 12: Meta Ads -->
+          <div class="skill-card">
+            <div class="circular-progress">
+              <svg viewBox="0 0 120 120">
+                <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
+                <circle
+                  class="progress-bar meta"
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  data-percent="88"
+                ></circle>
+              </svg>
+              <div class="progress-content">
+                <div class="skill-icon meta">
+                  <i class="fab fa-facebook-f"></i>
+                </div>
+                <span class="skill-percent">88%</span>
+              </div>
+            </div>
+            <h3 class="skill-name">Meta Ads</h3>
+          </div>
+
+          <!-- Skill 13: TikTok Ads -->
+          <div class="skill-card">
+            <div class="circular-progress">
+              <svg viewBox="0 0 120 120">
+                <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
+                <circle
+                  class="progress-bar tiktok"
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  data-percent="87"
+                ></circle>
+              </svg>
+              <div class="progress-content">
+                <div class="skill-icon tiktok">
+                  <i class="fab fa-tiktok"></i>
+                </div>
+                <span class="skill-percent">87%</span>
+              </div>
+            </div>
+            <h3 class="skill-name">TikTok Ads</h3>
+          </div>
+
+          <!-- Skill 14: Content Writing -->
+          <div class="skill-card">
+            <div class="circular-progress">
+              <svg viewBox="0 0 120 120">
+                <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
+                <circle
+                  class="progress-bar content"
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  data-percent="90"
+                ></circle>
+              </svg>
+              <div class="progress-content">
+                <div class="skill-icon content">
+                  <i class="fas fa-pen-fancy"></i>
+                </div>
+                <span class="skill-percent">90%</span>
+              </div>
+            </div>
+            <h3 class="skill-name">Content Writing</h3>
           </div>
         </div>
       </section>
