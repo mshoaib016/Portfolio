@@ -63,6 +63,8 @@ body {
   height: 100%;
   overflow: hidden;
   z-index: -1;
+  top: 0;
+  left: 0;
 }
 
 .shape {
@@ -125,7 +127,7 @@ body {
   position: fixed;
   top: 25px;
   right: 25px;
-  background: var(--card-bg);
+  /* background: var(--card-bg); */
   border: 2px solid var(--border-color);
   border-radius: 50px;
   padding: 8px;
@@ -411,6 +413,10 @@ h1 {
 
 /* Responsive */
 @media (max-width: 600px) {
+  body {
+    align-items: flex-start;
+    padding-top: 40px; /* thoda spacing ke liye */
+  }
   h1 {
     font-size: 2rem;
   }
