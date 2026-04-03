@@ -29,6 +29,11 @@
       --success: #00ff88;
       --border: #222222;
       --border-hover: #333333;
+      --header-height: 70px;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -39,6 +44,7 @@
       line-height: 1.6;
       position: relative;
       overflow-x: hidden;
+      padding-top: var(--header-height);
     }
 
     /* Animated Background Grid */
@@ -53,6 +59,7 @@
           black 40%,
           transparent 80%);
       pointer-events: none;
+      z-index: -1;
     }
 
     /* Floating Orbs */
@@ -62,6 +69,7 @@
       filter: blur(100px);
       opacity: 0.4;
       pointer-events: none;
+      z-index: -1;
     }
 
     .orb-1 {
@@ -94,14 +102,40 @@
       }
     }
 
+    /* STICKY HEADER */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      background: rgba(5, 5, 5, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .header.scrolled {
+      background: rgba(5, 5, 5, 0.95);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
     /* Main Container */
     .container {
       max-width: 1200px;
       width: 100%;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 16px;
       position: relative;
       z-index: 1;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 0 24px;
+      }
     }
 
     /* Navigation */
@@ -109,20 +143,20 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 0;
-      margin-bottom: 35px;
-      border-bottom: 1px solid var(--border);
+      height: var(--header-height);
+      position: relative;
     }
 
     .nav-left {
       flex: 1;
       display: flex;
       align-items: center;
+      z-index: 1001;
     }
 
     .nav-name {
       font-family: "JetBrains Mono", monospace;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 600;
       color: var(--text);
       text-decoration: none;
@@ -132,15 +166,66 @@
       transition: color 0.3s;
     }
 
+    @media (min-width: 768px) {
+      .nav-name {
+        font-size: 1.1rem;
+      }
+    }
+
     .nav-name::before {
       content: "</>";
       color: var(--accent);
     }
 
-    .nav-center {
-      flex: 2;
+    /* Mobile Menu Toggle */
+    .menu-toggle {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 1001;
+      background: transparent;
+      border: none;
+    }
+
+    @media (min-width: 1024px) {
+      .menu-toggle {
+        display: none;
+      }
+    }
+
+    .menu-toggle span {
+      width: 25px;
+      height: 2px;
+      background: var(--text);
+      transition: all 0.3s;
+      display: block;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Desktop Navigation */
+    .desktop-nav {
+      display: none;
+    }
+
+    @media (min-width: 1024px) {
+      .desktop-nav {
+        display: flex;
+        flex: 2;
+        justify-content: center;
+      }
     }
 
     .nav-links {
@@ -158,16 +243,18 @@
       letter-spacing: 1px;
       transition: color 0.2s;
       position: relative;
+      padding: 5px 0;
     }
 
-    .nav-links a:hover {
+    .nav-links a:hover,
+    .nav-links a.active {
       color: var(--text);
     }
 
     .nav-links a::after {
       content: "";
       position: absolute;
-      bottom: -4px;
+      bottom: 0;
       left: 0;
       width: 0;
       height: 2px;
@@ -175,32 +262,99 @@
       transition: width 0.3s;
     }
 
-    .nav-links a:hover::after {
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
       width: 100%;
     }
 
-    .nav-right {
-      flex: 1;
+    /* Mobile Navigation Overlay */
+    .mobile-nav {
       display: flex;
-      justify-content: flex-end;
+      flex-direction: column;
+      gap: 0;
+      list-style: none;
+      position: fixed;
+      top: var(--header-height);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(5, 5, 5, 0.98);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 999;
+      margin: 0;
+    }
+
+    .mobile-nav.active {
+      transform: translateX(0);
+    }
+
+    @media (min-width: 1024px) {
+      .mobile-nav {
+        display: none;
+      }
+    }
+
+    .mobile-nav li {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s;
+      display: block;
+      padding: 20px 0;
+    }
+
+    .mobile-nav a:hover,
+    .mobile-nav a.active {
+      color: var(--accent);
+      padding-left: 20px;
+    }
+
+    .nav-right {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .nav-right {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+      }
     }
 
     .hire-btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 24px;
+      padding: 10px 20px;
       background: var(--accent);
       color: var(--bg);
       border: none;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
       text-decoration: none;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      white-space: nowrap;
+    }
+
+    @media (min-width: 768px) {
+      .hire-btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+      }
     }
 
     .hire-btn::before {
@@ -226,29 +380,62 @@
       box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
     }
 
-    /* Hero Section - FIXED IMAGE */
+    /* Hero Section */
     .hero {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 100px;
+      grid-template-columns: 1fr;
+      gap: 40px;
       align-items: center;
+      padding: 40px 0 60px;
+    }
+
+    @media (min-width: 1024px) {
+      .hero {
+        grid-template-columns: 1.2fr 1fr;
+        gap: 60px;
+        padding: 60px 0 100px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .hero {
+        gap: 100px;
+      }
     }
 
     .hero-content {
-      padding-right: 40px;
+      padding-right: 0;
+      order: 2;
+    }
+
+    @media (min-width: 1024px) {
+      .hero-content {
+        padding-right: 40px;
+        order: 1;
+      }
     }
 
     .status-bar {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       background: var(--surface-elevated);
       border: 1px solid var(--border);
-      padding: 10px 20px;
+      padding: 8px 16px;
       border-radius: 100px;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    @media (min-width: 768px) {
+      .status-bar {
+        gap: 12px;
+        padding: 10px 20px;
+        margin-bottom: 32px;
+        font-size: 0.85rem;
+      }
     }
 
     .status-indicator {
@@ -264,6 +451,7 @@
       background: var(--success);
       border-radius: 50%;
       position: relative;
+      flex-shrink: 0;
     }
 
     .pulse::before {
@@ -290,12 +478,19 @@
 
     .greeting {
       font-family: "JetBrains Mono", monospace;
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: var(--accent);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
       gap: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .greeting {
+        font-size: 1rem;
+        margin-bottom: 16px;
+      }
     }
 
     .greeting::before {
@@ -318,21 +513,34 @@
     }
 
     .name {
-      font-size: 4.5rem;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
       font-weight: 800;
       line-height: 1.1;
-      margin-bottom: 16px;
-      letter-spacing: -3px;
+      margin-bottom: 12px;
+      letter-spacing: -2px;
       background: linear-gradient(135deg, #fff 0%, #888 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
+    @media (min-width: 768px) {
+      .name {
+        letter-spacing: -3px;
+        margin-bottom: 16px;
+      }
+    }
+
     .title {
-      font-size: 1.5rem;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
       color: var(--text-secondary);
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       font-weight: 400;
+    }
+
+    @media (min-width: 768px) {
+      .title {
+        margin-bottom: 32px;
+      }
     }
 
     .title strong {
@@ -346,23 +554,42 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (min-width: 768px) {
+      .terminal {
+        margin-bottom: 40px;
+      }
     }
 
     .terminal-header {
       background: var(--surface-elevated);
-      padding: 12px 16px;
+      padding: 10px 12px;
       display: flex;
       align-items: center;
       gap: 8px;
       border-bottom: 1px solid var(--border);
     }
 
+    @media (min-width: 768px) {
+      .terminal-header {
+        padding: 12px 16px;
+      }
+    }
+
     .terminal-dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
+    }
+
+    @media (min-width: 768px) {
+      .terminal-dot {
+        width: 12px;
+        height: 12px;
+      }
     }
 
     .dot-red {
@@ -379,28 +606,57 @@
 
     .terminal-title {
       margin-left: 12px;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
       font-family: "JetBrains Mono", monospace;
     }
 
+    @media (min-width: 768px) {
+      .terminal-title {
+        font-size: 0.8rem;
+      }
+    }
+
     .terminal-body {
-      padding: 24px;
+      padding: 16px;
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.95rem;
-      line-height: 2;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    @media (min-width: 768px) {
+      .terminal-body {
+        padding: 24px;
+        font-size: 0.95rem;
+        line-height: 2;
+      }
     }
 
     .code-line {
       display: flex;
-      gap: 16px;
+      gap: 12px;
+      white-space: nowrap;
+    }
+
+    @media (min-width: 768px) {
+      .code-line {
+        gap: 16px;
+      }
     }
 
     .line-num {
       color: var(--text-muted);
-      min-width: 24px;
+      min-width: 20px;
       text-align: right;
       user-select: none;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 768px) {
+      .line-num {
+        min-width: 24px;
+      }
     }
 
     .code-keyword {
@@ -421,44 +677,75 @@
 
     .stats {
       display: flex;
-      gap: 48px;
-      margin-bottom: 40px;
-      padding: 24px 0;
+      gap: 24px;
+      margin-bottom: 32px;
+      padding: 20px 0;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
+      justify-content: space-around;
+    }
+
+    @media (min-width: 768px) {
+      .stats {
+        gap: 48px;
+        margin-bottom: 40px;
+        padding: 24px 0;
+        justify-content: flex-start;
+      }
     }
 
     .stat {
       display: flex;
       flex-direction: column;
       gap: 4px;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .stat {
+        text-align: left;
+      }
     }
 
     .stat-value {
-      font-size: 2rem;
+      font-size: clamp(1.5rem, 4vw, 2rem);
       font-weight: 700;
       color: var(--text);
     }
 
     .stat-label {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: var(--text-secondary);
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
+    @media (min-width: 768px) {
+      .stat-label {
+        font-size: 0.85rem;
+      }
+    }
+
     .cta-group {
       display: flex;
-      gap: 16px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    @media (min-width: 768px) {
+      .cta-group {
+        gap: 16px;
+      }
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      padding: 16px 32px;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
       border-radius: 8px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 600;
       text-decoration: none;
       transition: all 0.3s ease;
@@ -466,6 +753,21 @@
       border: none;
       position: relative;
       overflow: hidden;
+      width: 100%;
+    }
+
+    @media (min-width: 480px) {
+      .btn {
+        width: auto;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .btn {
+        padding: 16px 32px;
+        font-size: 0.95rem;
+        gap: 12px;
+      }
     }
 
     .btn::before {
@@ -497,9 +799,16 @@
       box-shadow: 0 10px 50px rgba(0, 212, 255, 0.4);
     }
 
-    /* Profile Card - FIXED IMAGE POSITION */
+    /* Profile Card */
     .profile-card {
       position: relative;
+      order: 1;
+    }
+
+    @media (min-width: 1024px) {
+      .profile-card {
+        order: 2;
+      }
     }
 
     .card-glow {
@@ -517,9 +826,15 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 40px;
+      padding: 24px;
       position: relative;
       overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .card {
+        padding: 40px;
+      }
     }
 
     .card::before {
@@ -541,10 +856,15 @@
       aspect-ratio: 1;
       border-radius: 16px;
       overflow: hidden;
-      margin-bottom: 32px;
-      /* FIX: Ensure image doesn't get cut from top */
+      margin-bottom: 24px;
       display: flex;
       align-items: flex-start;
+    }
+
+    @media (min-width: 768px) {
+      .profile-image-wrapper {
+        margin-bottom: 32px;
+      }
     }
 
     .profile-image {
@@ -552,7 +872,6 @@
       height: 100%;
       object-fit: cover;
       object-position: top center;
-      /* FIX: Image starts from top */
       transition: transform 0.5s ease;
     }
 
@@ -570,20 +889,34 @@
     .tech-stack {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 24px;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .tech-stack {
+        gap: 10px;
+        margin-bottom: 24px;
+      }
     }
 
     .tech-tag {
       background: var(--surface-hover);
       border: 1px solid var(--border);
-      padding: 8px 16px;
+      padding: 6px 12px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: var(--text-secondary);
       font-family: "JetBrains Mono", monospace;
       transition: all 0.2s;
       cursor: default;
+    }
+
+    @media (min-width: 768px) {
+      .tech-tag {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+      }
     }
 
     .tech-tag:hover {
@@ -594,7 +927,13 @@
 
     .social-links {
       display: flex;
-      gap: 12px;
+      gap: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .social-links {
+        gap: 12px;
+      }
     }
 
     .social-btn {
@@ -602,16 +941,24 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 12px;
+      gap: 6px;
+      padding: 10px;
       background: var(--surface-hover);
       border: 1px solid var(--accent);
       border-radius: 8px;
       color: var(--accent);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 500;
       transition: all 0.2s;
+    }
+
+    @media (min-width: 768px) {
+      .social-btn {
+        gap: 8px;
+        padding: 12px;
+        font-size: 0.9rem;
+      }
     }
 
     .social-btn:hover {
@@ -620,35 +967,70 @@
       border-color: var(--accent);
     }
 
-    /* ============================================
-         TIMELINE SECTION (My Path) - As per Image
-         ============================================ */
-
+    /* Timeline Section */
     .timeline-section {
-      padding: 100px 0;
+      padding: 60px 0;
       position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .timeline-section {
+        padding: 100px 0;
+      }
     }
 
     .section-header {
       text-align: center;
-      margin-bottom: 60px;
+      margin-bottom: 40px;
+    }
+
+    @media (min-width: 768px) {
+      .section-header {
+        margin-bottom: 60px;
+      }
     }
 
     .section-label {
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--accent);
       text-transform: uppercase;
       letter-spacing: 2px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       display: block;
     }
 
+    @media (min-width: 768px) {
+      .section-label {
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+      }
+    }
+
     .section-title {
-      font-size: 3rem;
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .section-title {
+        margin-bottom: 16px;
+      }
+    }
+
+    .section-desc {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+      .section-desc {
+        font-size: 1.1rem;
+      }
     }
 
     /* Timeline Container */
@@ -659,14 +1041,13 @@
       padding: 20px 0;
     }
 
-    /* Vertical Line */
     .timeline::before {
       content: "";
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 20px;
+      top: 0;
+      bottom: 0;
       width: 2px;
-      height: 100%;
       background: linear-gradient(to bottom,
           transparent,
           var(--accent) 10%,
@@ -675,31 +1056,53 @@
       opacity: 0.3;
     }
 
-    /* Timeline Item */
+    @media (min-width: 768px) {
+      .timeline::before {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
     .timeline-item {
       position: relative;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
       width: 100%;
-      display: flex;
-      justify-content: center;
+      padding-left: 50px;
+    }
+
+    @media (min-width: 768px) {
+      .timeline-item {
+        margin-bottom: 50px;
+        padding-left: 0;
+        display: flex;
+        justify-content: center;
+      }
     }
 
     .timeline-item:last-child {
       margin-bottom: 0;
     }
 
-    /* Timeline Dot */
     .timeline-dot {
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 20px;
-      height: 20px;
+      left: 11px;
+      top: 0;
+      width: 18px;
+      height: 18px;
       background: var(--surface);
       border: 3px solid var(--accent);
       border-radius: 50%;
       z-index: 10;
       box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    }
+
+    @media (min-width: 768px) {
+      .timeline-dot {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 20px;
+      }
     }
 
     .timeline-dot::before {
@@ -711,15 +1114,20 @@
       opacity: 0.3;
     }
 
-    /* Timeline Content Card */
     .timeline-content {
-      width: 40%;
+      width: 100%;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 24px;
+      padding: 20px;
       position: relative;
       transition: all 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+      .timeline-content {
+        width: 40%;
+      }
     }
 
     .timeline-content:hover {
@@ -728,43 +1136,65 @@
       box-shadow: 0 10px 40px rgba(0, 212, 255, 0.1);
     }
 
-    /* Alternating sides */
-    .timeline-item:nth-child(odd) .timeline-content {
-      margin-right: auto;
-      margin-left: 0;
-      text-align: right;
-    }
+    @media (min-width: 768px) {
+      .timeline-item:nth-child(odd) .timeline-content {
+        margin-right: auto;
+        margin-left: 0;
+        text-align: right;
+      }
 
-    .timeline-item:nth-child(even) .timeline-content {
-      margin-left: auto;
-      margin-right: 0;
-      text-align: left;
+      .timeline-item:nth-child(even) .timeline-content {
+        margin-left: auto;
+        margin-right: 0;
+        text-align: left;
+      }
     }
 
     .timeline-date {
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--accent);
       margin-bottom: 8px;
     }
 
+    @media (min-width: 768px) {
+      .timeline-date {
+        font-size: 0.85rem;
+      }
+    }
+
     .timeline-title {
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       font-weight: 600;
       color: var(--text);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .timeline-title {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+      }
     }
 
     .timeline-list {
       list-style: none;
       color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.8;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 768px) {
+      .timeline-list {
+        font-size: 0.95rem;
+        line-height: 1.8;
+      }
     }
 
     .timeline-list li {
       position: relative;
       padding-left: 16px;
+      margin-bottom: 4px;
     }
 
     .timeline-list li::before {
@@ -775,19 +1205,48 @@
       font-weight: bold;
     }
 
-    /* ============================================
-         PROJECTS SECTION - 6 Projects Grid
-         ============================================ */
+    @media (min-width: 768px) {
+      .timeline-item:nth-child(odd) .timeline-list li {
+        padding-left: 0;
+        padding-right: 16px;
+      }
 
+      .timeline-item:nth-child(odd) .timeline-list li::before {
+        left: auto;
+        right: 0;
+      }
+    }
+
+    /* Projects Section */
     .projects-section {
-      padding: 70px 0;
+      padding: 40px 0;
       position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .projects-section {
+        padding: 70px 0;
+      }
     }
 
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 640px) {
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+      }
     }
 
     .project-card {
@@ -797,7 +1256,6 @@
       overflow: hidden;
       transition: all 0.4s ease;
       position: relative;
-      group: true;
     }
 
     .project-card:hover {
@@ -808,10 +1266,16 @@
 
     .project-image {
       width: 100%;
-      height: 200px;
+      height: 180px;
       background: var(--surface-elevated);
       position: relative;
       overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .project-image {
+        height: 200px;
+      }
     }
 
     .project-image img {
@@ -870,105 +1334,127 @@
     }
 
     .project-content {
-      padding: 24px;
+      padding: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .project-content {
+        padding: 24px;
+      }
     }
 
     .project-category {
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--accent);
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 8px;
     }
 
+    @media (min-width: 768px) {
+      .project-category {
+        font-size: 0.8rem;
+      }
+    }
+
     .project-title {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 600;
       color: var(--text);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .project-title {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+      }
     }
 
     .project-description {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: 16px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .project-description {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
     }
 
     .project-tech {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
+    }
+
+    @media (min-width: 768px) {
+      .project-tech {
+        gap: 8px;
+      }
     }
 
     .project-tech span {
       background: var(--surface-hover);
       border: 1px solid var(--border);
-      padding: 4px 12px;
+      padding: 3px 10px;
       border-radius: 4px;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-secondary);
       font-family: "JetBrains Mono", monospace;
     }
 
-    /* ============================================
-         SKILLS SECTION - Circular Progress Bars
-         ============================================ */
+    @media (min-width: 768px) {
+      .project-tech span {
+        padding: 4px 12px;
+        font-size: 0.75rem;
+      }
+    }
 
     /* Skills Section */
     .skills-section {
-      padding: 15px 0;
+      padding: 40px 0;
       position: relative;
     }
 
-    .section-header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .section-tag {
-      display: inline-block;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 8px 20px;
-      border-radius: 100px;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 0.85rem;
-      color: var(--accent);
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      font-size: 3rem;
-      font-weight: 800;
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, #fff 0%, #888 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .section-desc {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      max-width: 500px;
-      margin: 0 auto;
+    @media (min-width: 768px) {
+      .skills-section {
+        padding: 60px 0;
+      }
     }
 
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 40px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
       max-width: 1000px;
       margin: 0 auto;
     }
 
-    /* Skill Card with Animation */
+    @media (min-width: 640px) {
+      .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .skills-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+      }
+    }
+
     .skill-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 40px 30px;
+      border-radius: 20px;
+      padding: 24px 16px;
       text-align: center;
       transition: all 0.4s ease;
       position: relative;
@@ -977,12 +1463,18 @@
       transform: translateY(30px);
     }
 
+    @media (min-width: 768px) {
+      .skill-card {
+        padding: 30px 20px;
+        border-radius: 24px;
+      }
+    }
+
     .skill-card.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* Stagger Animation Delays */
     .skill-card.visible:nth-child(1) {
       transition-delay: 0s;
     }
@@ -1072,12 +1564,19 @@
       opacity: 1;
     }
 
-    /* Circular Progress */
     .circular-progress {
       position: relative;
-      width: 140px;
-      height: 140px;
-      margin: 0 auto 24px;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 16px;
+    }
+
+    @media (min-width: 768px) {
+      .circular-progress {
+        width: 140px;
+        height: 140px;
+        margin-bottom: 24px;
+      }
     }
 
     .circular-progress svg {
@@ -1101,7 +1600,6 @@
       transition: stroke-dashoffset 1.5s ease-out;
     }
 
-    /* All Skill Colors */
     .progress-bar.react {
       stroke: #61dafb;
     }
@@ -1166,7 +1664,6 @@
       stroke: #2ecc71;
     }
 
-    /* Percentage Calculations (377 - (377 * percent / 100)) */
     .skill-card.visible .progress-bar[data-percent="100"] {
       stroke-dashoffset: 0;
     }
@@ -1215,21 +1712,34 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
+    }
+
+    @media (min-width: 768px) {
+      .progress-content {
+        gap: 8px;
+      }
     }
 
     .skill-icon {
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1rem;
       color: white;
     }
 
-    /* All Icon Backgrounds */
+    @media (min-width: 768px) {
+      .skill-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+    }
+
     .skill-icon.react {
       background: #61dafb;
       color: #000;
@@ -1299,69 +1809,98 @@
     }
 
     .skill-percent {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: var(--text);
       font-family: "JetBrains Mono", monospace;
     }
 
+    @media (min-width: 768px) {
+      .skill-percent {
+        font-size: 1.5rem;
+      }
+    }
+
     .skill-name {
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: var(--text-secondary);
       font-weight: 500;
-      margin-top: 8px;
+      margin-top: 4px;
     }
 
-    /* Responsive */
-    @media (max-width: 968px) {
-      .skills-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
-      }
-
-      .section-title {
-        font-size: 2.5rem;
+    @media (min-width: 768px) {
+      .skill-name {
+        font-size: 1rem;
+        margin-top: 8px;
       }
     }
 
-    @media (max-width: 640px) {
-      .skills-grid {
-        grid-template-columns: 1fr;
-        max-width: 300px;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-    }
-
-    /* CONTACT SECTION */
+    /* Contact Section */
     .contact-section {
       position: relative;
+      padding: 40px 0;
+    }
+
+    @media (min-width: 768px) {
+      .contact-section {
+        padding: 60px 0;
+      }
     }
 
     .contact-container {
       display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      gap: 60px;
+      grid-template-columns: 1fr;
+      gap: 30px;
       max-width: 1000px;
       margin: 0 auto;
     }
 
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+    @media (min-width: 768px) {
+      .contact-container {
+        grid-template-columns: 1fr 1.5fr;
+        gap: 40px;
+      }
     }
 
-    /* Contact Cards */
+    @media (min-width: 1024px) {
+      .contact-container {
+        gap: 60px;
+      }
+    }
+
+    .contact-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 640px) and (max-width: 767px) {
+      .contact-info {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+
     .contact-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 28px;
+      padding: 20px;
       text-align: center;
       transition: all 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+      .contact-card {
+        padding: 28px;
+      }
     }
 
     .contact-card:hover {
@@ -1371,18 +1910,27 @@
     }
 
     .contact-icon {
-      width: 50px;
-      height: 50px;
+      width: 44px;
+      height: 44px;
       border-radius: 12px;
       background: var(--surface-hover);
       border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 1.2rem;
+      margin: 0 auto 12px;
+      font-size: 1.1rem;
       color: var(--accent);
       transition: all 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+      .contact-icon {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 16px;
+        font-size: 1.2rem;
+      }
     }
 
     .contact-card:hover .contact-icon {
@@ -1392,33 +1940,52 @@
     }
 
     .contact-label {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--text-secondary);
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+    }
+
+    @media (min-width: 768px) {
+      .contact-label {
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+      }
     }
 
     .contact-value {
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: var(--text);
       text-decoration: none;
       font-weight: 500;
       transition: color 0.2s;
+      word-break: break-word;
+    }
+
+    @media (min-width: 768px) {
+      .contact-value {
+        font-size: 1rem;
+      }
     }
 
     .contact-value:hover {
       color: var(--accent);
     }
 
-    /* Contact Form */
     .contact-form-wrapper {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 40px;
+      padding: 24px;
       position: relative;
       overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .contact-form-wrapper {
+        padding: 40px;
+      }
     }
 
     .contact-form-wrapper::before {
@@ -1434,25 +2001,50 @@
     .contact-form {
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .contact-form {
+        gap: 24px;
+      }
     }
 
     .form-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
+    }
+
+    @media (min-width: 768px) {
+      .form-group {
+        gap: 8px;
+      }
     }
 
     .form-label {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
       font-weight: 500;
+    }
+
+    @media (min-width: 768px) {
+      .form-label {
+        font-size: 0.9rem;
+      }
     }
 
     .form-input,
@@ -1460,12 +2052,22 @@
       background: var(--surface-hover);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 14px 18px;
+      padding: 12px 14px;
       color: var(--text);
       font-family: "Inter", sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       transition: all 0.3s ease;
       outline: none;
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+
+      .form-input,
+      .form-textarea {
+        padding: 14px 18px;
+        font-size: 0.95rem;
+      }
     }
 
     .form-input:focus,
@@ -1480,29 +2082,50 @@
     }
 
     .form-textarea {
-      min-height: 140px;
+      min-height: 120px;
       resize: vertical;
       line-height: 1.6;
     }
 
-    /* Submit Button */
+    @media (min-width: 768px) {
+      .form-textarea {
+        min-height: 140px;
+      }
+    }
+
     .submit-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      padding: 16px 32px;
+      gap: 10px;
+      padding: 14px 28px;
       background: var(--accent);
       color: var(--bg);
       border: none;
       border-radius: 10px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
-      margin-top: 8px;
+      margin-top: 4px;
+      width: 100%;
+    }
+
+    @media (min-width: 640px) {
+      .submit-btn {
+        width: auto;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .submit-btn {
+        padding: 16px 32px;
+        font-size: 1rem;
+        gap: 12px;
+        margin-top: 8px;
+      }
     }
 
     .submit-btn::before {
@@ -1525,22 +2148,45 @@
       box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
     }
 
-    /* FOOTER */
+    /* Footer */
     .footer {
-      padding: 10px 0;
+      padding: 30px 0;
       border-top: 1px solid var(--border);
-      margin-top: 50px;
+      margin-top: 40px;
+    }
+
+    @media (min-width: 768px) {
+      .footer {
+        padding: 40px 0;
+        margin-top: 50px;
+      }
     }
 
     .footer-bottom {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+
+    @media (min-width: 640px) {
+      .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+      }
     }
 
     .footer-copyright {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
+    }
+
+    @media (min-width: 768px) {
+      .footer-copyright {
+        font-size: 0.9rem;
+      }
     }
 
     .footer-copyright span {
@@ -1551,15 +2197,23 @@
     .footer-backtop {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       color: var(--text-secondary);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 500;
       transition: all 0.3s ease;
-      padding: 8px 16px;
+      padding: 10px 16px;
       border-radius: 8px;
       border: 1px solid var(--border);
+    }
+
+    @media (min-width: 768px) {
+      .footer-backtop {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
     }
 
     .footer-backtop:hover {
@@ -1568,37 +2222,55 @@
       transform: translateY(-2px);
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 968px) {
-      .contact-container {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
+    /* Section Tag */
+    .section-tag {
+      display: inline-block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
 
-      .contact-info {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-      }
-
-      .form-row {
-        grid-template-columns: 1fr;
+    @media (min-width: 768px) {
+      .section-tag {
+        padding: 8px 20px;
+        font-size: 0.85rem;
+        margin-bottom: 16px;
       }
     }
 
-    @media (max-width: 640px) {
-      .contact-info {
-        grid-template-columns: 1fr;
+    /* Touch-friendly improvements */
+    @media (hover: none) and (pointer: coarse) {
+
+      .tech-tag:hover,
+      .skill-card:hover,
+      .project-card:hover,
+      .timeline-content:hover,
+      .contact-card:hover {
+        transform: none;
       }
 
-      .contact-form-wrapper {
-        padding: 28px;
+      .hire-btn:hover,
+      .btn:hover,
+      .submit-btn:hover,
+      .social-btn:hover {
+        transform: none;
       }
+    }
 
-      .footer-bottom {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
@@ -1610,30 +2282,54 @@
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
 
-  <div class="container">
-    <!-- Navigation -->
-    <nav class="nav">
-      <div class="nav-left">
-        <a href="#" class="nav-name">Muhammad Shoaib</a>
-      </div>
-      <div class="nav-center">
-        <ul class="nav-links">
-          <li><a href="#about">ABOUT ME</a></li>
-          <li><a href="#skills">SKILLS</a></li>
-          <li><a href="#projects">PROJECTS</a></li>
-          <li><a href="#contact">CONTACT</a></li>
-        </ul>
-      </div>
-      <div class="nav-right">
-        <a href="mailto:shoaibhanif163@gmail.com" class="hire-btn">
-          <i class="fas fa-briefcase"></i>
-          Hire Me
-        </a>
-      </div>
-    </nav>
+  <!-- STICKY HEADER -->
+  <header class="header" id="header">
+    <div class="container">
+      <nav class="nav">
+        <div class="nav-left">
+          <a href="#" class="nav-name">Muhammad Shoaib</a>
+        </div>
 
-    <!-- Hero Section -->
-    <div class="hero">
+        <!-- Mobile Menu Toggle Button -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <!-- Desktop Navigation -->
+        <div class="desktop-nav">
+          <ul class="nav-links">
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#about" class="nav-link">About Me</a></li>
+            <li><a href="#skills" class="nav-link">Skills</a></li>
+            <li><a href="#projects" class="nav-link">Projects</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="nav-right">
+          <a href="mailto:shoaibhanif163@gmail.com" class="hire-btn">
+            <i class="fas fa-briefcase"></i>
+            Hire Me
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay -->
+  <ul class="mobile-nav" id="mobileNav">
+    <li><a href="#home" class="mobile-nav-link">Home</a></li>
+    <li><a href="#about" class="mobile-nav-link">About Me</a></li>
+    <li><a href="#skills" class="mobile-nav-link">Skills</a></li>
+    <li><a href="#projects" class="mobile-nav-link">Projects</a></li>
+    <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+  </ul>
+
+  <div class="container">
+    <!-- Hero Section - Added id="home" -->
+    <div class="hero" id="home">
       <div class="hero-content">
         <div class="status-bar">
           <span class="status-indicator">
@@ -1715,7 +2411,7 @@
         </div>
       </div>
 
-      <!-- Profile Card - FIXED IMAGE -->
+      <!-- Profile Card -->
       <div class="profile-card">
         <div class="card-glow"></div>
         <div class="card">
@@ -1753,7 +2449,7 @@
       </div>
     </div>
 
-    <!-- TIMELINE SECTION (My Path) - As per Reference Image -->
+    <!-- Timeline Section -->
     <section class="timeline-section" id="about">
       <div class="section-header">
         <span class="section-label">// Journey</span>
@@ -1761,11 +2457,9 @@
       </div>
 
       <div class="timeline">
-        <!-- Item 1 -->
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
-            <!-- <div class="timeline-date">6 Feb 2021 - 14 Jan 2022</div> -->
             <h3 class="timeline-title">Web Foundations</h3>
             <ul class="timeline-list">
               <li>Learned HTML & CSS basics</li>
@@ -1776,11 +2470,9 @@
           </div>
         </div>
 
-        <!-- Item 2 -->
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
-            <!-- <div class="timeline-date">9 Jan 2022 - 20 Nov 2022</div> -->
             <h3 class="timeline-title">Powering Stores with Shopify</h3>
             <ul class="timeline-list">
               <li>Shopify Theme Development</li>
@@ -1791,11 +2483,9 @@
           </div>
         </div>
 
-        <!-- Item 3 -->
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
-            <!-- <div class="timeline-date">21 Nov 2022 - Present</div> -->
             <h3 class="timeline-title">Social Media Marketing</h3>
             <ul class="timeline-list">
               <li>Social Media Strategy</li>
@@ -1808,558 +2498,579 @@
       </div>
     </section>
 
-    <!-- SKILLS SECTION - Design Skills with Circular Progress -->
+    <!-- Skills Section -->
     <section class="skills-section" id="skills">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Expertise</span>
-          <h2 class="section-title">Skills & Technologies</h2>
-          <p class="section-desc">Technologies and tools I work with daily</p>
-        </div>
-
-        <div class="skills-grid">
-          <!-- React -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar react" data-percent="90" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon react">
-                  <i class="fab fa-react"></i>
-                </div>
-                <span class="skill-percent">90%</span>
-              </div>
-            </div>
-            <div class="skill-name">React</div>
-          </div>
-
-          <!-- Node.js -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar node" data-percent="85" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon node">
-                  <i class="fab fa-node-js"></i>
-                </div>
-                <span class="skill-percent">85%</span>
-              </div>
-            </div>
-            <div class="skill-name">Node.js</div>
-          </div>
-
-          <!-- JavaScript -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar js" data-percent="95" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon js">
-                  <i class="fab fa-js"></i>
-                </div>
-                <span class="skill-percent">95%</span>
-              </div>
-            </div>
-            <div class="skill-name">JavaScript</div>
-          </div>
-
-          <!-- TypeScript -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar ts" data-percent="80" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon ts">
-                  <i class="fab fa-js"></i>
-                </div>
-                <span class="skill-percent">80%</span>
-              </div>
-            </div>
-            <div class="skill-name">TypeScript</div>
-          </div>
-
-          <!-- HTML -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar html" data-percent="95" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon html">
-                  <i class="fab fa-html5"></i>
-                </div>
-                <span class="skill-percent">95%</span>
-              </div>
-            </div>
-            <div class="skill-name">HTML</div>
-          </div>
-
-          <!-- CSS -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar css" data-percent="90" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon css">
-                  <i class="fab fa-css3-alt"></i>
-                </div>
-                <span class="skill-percent">90%</span>
-              </div>
-            </div>
-            <div class="skill-name">CSS</div>
-          </div>
-
-          <!-- Shopify -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar shopify" data-percent="88" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon shopify">
-                  <i class="fab fa-shopify"></i>
-                </div>
-                <span class="skill-percent">88%</span>
-              </div>
-            </div>
-            <div class="skill-name">Shopify</div>
-          </div>
-
-          <!-- WordPress -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar wordpress" data-percent="82" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon wordpress">
-                  <i class="fab fa-wordpress"></i>
-                </div>
-                <span class="skill-percent">82%</span>
-              </div>
-            </div>
-            <div class="skill-name">WordPress</div>
-          </div>
-
-          <!-- eBay -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar ebay" data-percent="75" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon ebay">
-                  <i class="fab fa-ebay"></i>
-                </div>
-                <span class="skill-percent">75%</span>
-              </div>
-            </div>
-            <div class="skill-name">eBay</div>
-          </div>
-
-          <!-- Amazon -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar amazon" data-percent="78" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon amazon">
-                  <i class="fab fa-amazon"></i>
-                </div>
-                <span class="skill-percent">78%</span>
-              </div>
-            </div>
-            <div class="skill-name">Amazon</div>
-          </div>
-
-          <!-- Walmart -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar walmart" data-percent="70" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon walmart">
-                  <i class="fas fa-store"></i>
-                </div>
-                <span class="skill-percent">70%</span>
-              </div>
-            </div>
-            <div class="skill-name">Walmart</div>
-          </div>
-
-          <!-- Social Media Marketing -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar social" data-percent="85" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon social">
-                  <i class="fas fa-share-alt"></i>
-                </div>
-                <span class="skill-percent">85%</span>
-              </div>
-            </div>
-            <div class="skill-name">Social Media</div>
-          </div>
-
-          <!-- Digital Marketing -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar digital" data-percent="88" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon digital">
-                  <i class="fas fa-bullhorn"></i>
-                </div>
-                <span class="skill-percent">88%</span>
-              </div>
-            </div>
-            <div class="skill-name">Digital Marketing</div>
-          </div>
-
-          <!-- Meta Ads -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar meta" data-percent="82" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon meta">
-                  <i class="fab fa-meta"></i>
-                </div>
-                <span class="skill-percent">82%</span>
-              </div>
-            </div>
-            <div class="skill-name">Meta Ads</div>
-          </div>
-
-          <!-- TikTok -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar tiktok" data-percent="80" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon tiktok">
-                  <i class="fab fa-tiktok"></i>
-                </div>
-                <span class="skill-percent">80%</span>
-              </div>
-            </div>
-            <div class="skill-name">TikTok</div>
-          </div>
-
-          <!-- Content Writing -->
-          <div class="skill-card">
-            <div class="circular-progress">
-              <svg viewBox="0 0 140 140">
-                <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
-                <circle class="progress-bar content" data-percent="90" cx="70" cy="70" r="60"></circle>
-              </svg>
-              <div class="progress-content">
-                <div class="skill-icon content">
-                  <i class="fas fa-pen-nib"></i>
-                </div>
-                <span class="skill-percent">90%</span>
-              </div>
-            </div>
-            <div class="skill-name">Content Writing</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS SECTION - 6 Projects -->
-    <section class="projects-section" id="projects">
       <div class="section-header">
-        <span class="section-label">// Work</span>
-        <h2 class="section-title">Featured Projects</h2>
+        <span class="section-tag">Expertise</span>
+        <h2 class="section-title">Skills & Technologies</h2>
+        <p class="section-desc">Technologies and tools I work with daily</p>
       </div>
 
-      <div class="projects-grid">
-        <!-- Project 1 -->
-        <div class="project-card">
-          <div class="project-image">
-            <img src="assets/Globaxify.png" alt="E-Commerce Dashboard" />
-            <div class="project-overlay">
-              <div class="project-links">
-                <a href="https://globaxify.online/" class="project-link" title="Live Demo">
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="circular-progress">
+            <svg viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+              <circle class="progress-bar react" data-percent="90" cx="70" cy="70" r="60"></circle>
+            </svg>
+            <div class="progress-content">
+              <div class="skill-icon react">
+                <i class="fab fa-react"></i>
               </div>
+              <span class="skill-percent">90%</span>
             </div>
           </div>
-          <div class="project-content">
-            <div class="project-category">Web Platform</div>
-            <h3 class="project-title">Globaxify Official Website
-            </h3>
-            <p class="project-description">
-              Modern business website designed to showcase services, team expertise, and client engagement with a clean
-              UI and smooth user experience.
-            </p>
-            <div class="project-tech">
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>JavaScript</span>
+          <div class="skill-name">React</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="circular-progress">
+            <svg viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+              <circle class="progress-bar node" data-percent="85" cx="70" cy="70" r="60"></circle>
+            </svg>
+            <div class="progress-content">
+              <div class="skill-icon node">
+                <i class="fab fa-node-js"></i>
+              </div>
+              <span class="skill-percent">85%</span>
+            </div>
+          </div>
+          <div class="skill-name">Node.js</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="circular-progress">
+            <svg viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+              <circle class="progress-bar js" data-percent="95" cx="70" cy="70" r="60"></circle>
+            </svg>
+            <div class="progress-content">
+              <div class="skill-icon js">
+                <i class="fab fa-js"></i>
+              </div>
+              <span class="skill-percent">95%</span>
+            </div>
+          </div>
+          <div class="skill-name">JavaScript</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="circular-progress">
+            <svg viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+              <circle class="progress-bar ts" data-percent="80" cx="70" cy="70" r="60"></circle>
+            </svg>
+            <div class="progress-content">
+              <div class="skill-icon ts">
+                <i class="fab fa-js"></i>
+              </div>
+              <span class="skill-percent">80%</span>
+            </div>
+          </div>
+          <div class="skill-name">TypeScript</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="circular-progress">
+            <svg viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+              <circle class="progress-bar html" data-percent="95" cx="70" cy="70" r="60"></circle>
+            </svg>
+            <div class="progress-content">
+              <div class="skill-icon html">
+                <i class="fab fa-html5"></i>
+              </div>
+              <span class="skill-percent">95%</span>
+            </div>
+          </div>
+          <div class="skill-name">HTML</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="circular-progress">
+            <svg viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+              <circle class="progress-bar css" data-percent="90" cx="70" cy="70" r="60"></circle>
+            </svg>
+            <div class="progress-content">
+              <div class="skill-icon css">
+                <i class="fab fa-css3-alt"></i>
+              </div>
+              <span class="skill-percent">90%</span>
+            </div>
+          </div>
+          <div class="skill-name">CSS</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="circular-progress">
+            <svg viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+              <circle class="progress-bar shopify" data-percent="88" cx="70" cy="70" r="60"></circle>
+            </svg>
+            <div class="progress-content">
+              <div class="skill-icon shopify">
+                <i class="fab fa-shopify"></i>
+              </div>
+              <span class="skill-percent">88%</span>
+            </div>
+          </div>
+          <div class="skill-name">Shopify</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="circular-progress">
+            <svg viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+              <circle class="progress-bar wordpress" data-percent="82" cx="70" cy="70" r="60"></circle>
+            </svg>
+            <div class="progress-content">
+            <div class="skill-icon wordpress">
+              <i class="fab fa-wordpress"></i>
+            </div>
+            <span class="skill-percent">82%</span>
+          </div>
+        </div>
+        <div class="skill-name">WordPress</div>
+      </div>
+
+      <div class="skill-card">
+        <div class="circular-progress">
+          <svg viewBox="0 0 140 140">
+            <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+            <circle class="progress-bar ebay" data-percent="75" cx="70" cy="70" r="60"></circle>
+          </svg>
+          <div class="progress-content">
+            <div class="skill-icon ebay">
+              <i class="fab fa-ebay"></i>
+            </div>
+            <span class="skill-percent">75%</span>
+          </div>
+        </div>
+        <div class="skill-name">eBay</div>
+      </div>
+
+      <div class="skill-card">
+        <div class="circular-progress">
+          <svg viewBox="0 0 140 140">
+            <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+            <circle class="progress-bar amazon" data-percent="78" cx="70" cy="70" r="60"></circle>
+          </svg>
+          <div class="progress-content">
+            <div class="skill-icon amazon">
+              <i class="fab fa-amazon"></i>
+            </div>
+            <span class="skill-percent">78%</span>
+          </div>
+        </div>
+        <div class="skill-name">Amazon</div>
+      </div>
+
+      <div class="skill-card">
+        <div class="circular-progress">
+          <svg viewBox="0 0 140 140">
+            <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+            <circle class="progress-bar walmart" data-percent="70" cx="70" cy="70" r="60"></circle>
+          </svg>
+          <div class="progress-content">
+            <div class="skill-icon walmart">
+              <i class="fas fa-store"></i>
+            </div>
+            <span class="skill-percent">70%</span>
+          </div>
+        </div>
+        <div class="skill-name">Walmart</div>
+      </div>
+
+      <div class="skill-card">
+        <div class="circular-progress">
+          <svg viewBox="0 0 140 140">
+            <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+            <circle class="progress-bar social" data-percent="85" cx="70" cy="70" r="60"></circle>
+          </svg>
+          <div class="progress-content">
+            <div class="skill-icon social">
+              <i class="fas fa-share-alt"></i>
+            </div>
+            <span class="skill-percent">85%</span>
+          </div>
+        </div>
+        <div class="skill-name">Social Media</div>
+      </div>
+
+      <div class="skill-card">
+        <div class="circular-progress">
+          <svg viewBox="0 0 140 140">
+            <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+            <circle class="progress-bar digital" data-percent="88" cx="70" cy="70" r="60"></circle>
+          </svg>
+          <div class="progress-content">
+            <div class="skill-icon digital">
+              <i class="fas fa-bullhorn"></i>
+            </div>
+            <span class="skill-percent">88%</span>
+          </div>
+        </div>
+        <div class="skill-name">Digital Marketing</div>
+      </div>
+
+      <div class="skill-card">
+        <div class="circular-progress">
+          <svg viewBox="0 0 140 140">
+            <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+            <circle class="progress-bar meta" data-percent="82" cx="70" cy="70" r="60"></circle>
+          </svg>
+          <div class="progress-content">
+            <div class="skill-icon meta">
+              <i class="fab fa-meta"></i>
+            </div>
+            <span class="skill-percent">82%</span>
+          </div>
+        </div>
+        <div class="skill-name">Meta Ads</div>
+      </div>
+
+      <div class="skill-card">
+        <div class="circular-progress">
+          <svg viewBox="0 0 140 140">
+            <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+            <circle class="progress-bar tiktok" data-percent="80" cx="70" cy="70" r="60"></circle>
+          </svg>
+          <div class="progress-content">
+            <div class="skill-icon tiktok">
+              <i class="fab fa-tiktok"></i>
+            </div>
+            <span class="skill-percent">80%</span>
+          </div>
+        </div>
+        <div class="skill-name">TikTok</div>
+      </div>
+
+      <div class="skill-card">
+        <div class="circular-progress">
+          <svg viewBox="0 0 140 140">
+            <circle class="progress-bg" cx="70" cy="70" r="60"></circle>
+            <circle class="progress-bar content" data-percent="90" cx="70" cy="70" r="60"></circle>
+          </svg>
+          <div class="progress-content">
+            <div class="skill-icon content">
+              <i class="fas fa-pen-nib"></i>
+            </div>
+            <span class="skill-percent">90%</span>
+          </div>
+        </div>
+        <div class="skill-name">Content Writing</div>
+      </div>
+  </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="projects-section" id="projects">
+    <div class="section-header">
+      <span class="section-label">// Work</span>
+      <h2 class="section-title">Featured Projects</h2>
+    </div>
+
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-image">
+          <img src="assets/Globaxify.png" alt="E-Commerce Dashboard" />
+          <div class="project-overlay">
+            <div class="project-links">
+              <a href="https://globaxify.online/" class="project-link" title="Live Demo">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
             </div>
           </div>
         </div>
-
-        <!-- Project 2 -->
-        <div class="project-card">
-          <div class="project-image">
-            <img src="assets/Taqwa.png" alt="Task Management App" />
-            <div class="project-overlay">
-              <div class="project-links">
-                <a href="https://taqwa.services/" class="project-link" title="Live Demo">
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="project-content">
-            <div class="project-category">Business Website</div>
-            <h3 class="project-title">Taqwa Services Platform
-            </h3>
-            <p class="project-description">
-              A professional service-based website designed to present digital solutions, streamline client
-              communication, and enhance online presence with a modern and responsive interface.
-            </p>
-            <div class="project-tech">
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>JavaScript</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 3 -->
-        <div class="project-card">
-          <div class="project-image">
-            <img src="assets/Secret Wear.png" alt="Social Media Platform" />
-            <div class="project-overlay">
-              <div class="project-links">
-                <a href="https://secretwear.site/" class="project-link" title="Live Demo">
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="project-content">
-            <div class="project-category">E-Commerce Platform</div>
-            <h3 class="project-title">SecretWear Online Store
-            </h3>
-            <p class="project-description">
-              A modern fashion e-commerce website designed to showcase trendy products, provide a smooth shopping
-              experience, and enhance user engagement with a clean and responsive interface.
-            </p>
-            <div class="project-tech">
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>Custom Liquid</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 4 -->
-        <div class="project-card">
-          <div class="project-image">
-            <img src="assets/Arqi Lounging.png" alt="Payment Gateway" />
-            <div class="project-overlay">
-              <div class="project-links">
-                <a href="https://arqilounging.com/" class="project-link" title="Live Demo">
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="project-content">
-            <div class="project-category">Business Website
-            </div>
-            <h3 class="project-title">Arqi Lounging Platform
-            </h3>
-            <p class="project-description">
-              A modern and elegant website designed to showcase premium lounging experiences, services, and brand
-              identity with a smooth and responsive user interface.
-            </p>
-            <div class="project-tech">
-              <span>Shopify</span>
-              <span>Liquid</span>
-              <span>Shopify Apps & Integrations</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 5 -->
-        <div class="project-card">
-          <div class="project-image">
-            <img src="assets/Bubu lab.png" alt="AI Content Generator" />
-            <div class="project-overlay">
-              <div class="project-links">
-                <a href="https://www.bubulabstore.com/" class="project-link" title="Live Demo">
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="project-content">
-            <div class="project-category">E-Commerce Website</div>
-            <h3 class="project-title">Bubulab Store
-            </h3>
-            <p class="project-description">
-              A modern WordPress-based e-commerce website designed to showcase products, enhance user experience, and
-              provide smooth navigation with a clean and responsive layout.
-            </p>
-            <div class="project-tech">
-              <span>WordPress
-              </span>
-              <span>Plugins & Integrations</span>
-              <span>Elementor / Page Builder
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 6 -->
-        <div class="project-card">
-          <div class="project-image">
-            <img src="assets/End.png" alt="Portfolio CMS" />
-            <div class="project-overlay">
-              <div class="project-links">
-                <a href="https://www.endclothing.com/gb" class="project-link" title="Live Demo">
-                  <i class="fas fa-external-link-alt"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="project-content">
-            <div class="project-category">E-Commerce Platform
-            </div>
-            <h3 class="project-title">END Clothing Store
-            </h3>
-            <p class="project-description">
-              A high-performance fashion e-commerce website designed to showcase premium products, deliver a seamless
-              shopping experience, and handle large-scale user traffic with a clean and modern interface.
-            </p>
-            <div class="project-tech">
-              <span>Custom Liquid</span>
-              <span>HTML</span>
-              <span>CSS</span>
-            </div>
+        <div class="project-content">
+          <div class="project-category">Web Platform</div>
+          <h3 class="project-title">Globaxify Official Website</h3>
+          <p class="project-description">
+            Modern business website designed to showcase services, team expertise, and client engagement with a clean
+            UI and smooth user experience.
+          </p>
+          <div class="project-tech">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- CONTACT SECTION -->
-    <section class="contact-section" id="contact">
-      <div class="section-header">
-        <span class="section-label">// Connect</span>
-        <h2 class="section-title">Get In Touch</h2>
-      </div>
-
-      <div class="contact-container">
-        <!-- Left Side: Contact Info Cards -->
-        <div class="contact-info">
-          <div class="contact-card">
-            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-            <div class="contact-label">Email</div>
-            <a href="mailto:shoaibhanif163@gmail.com" class="contact-value">shoaibhanif163@gmail.com</a>
-          </div>
-
-          <div class="contact-card">
-            <div class="contact-icon"><i class="fas fa-phone"></i></div>
-            <div class="contact-label">Phone</div>
-            <a href="tel:+923007364016" class="contact-value">+92 300 7364016</a>
-          </div>
-
-          <div class="contact-card">
-            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
-            <div class="contact-label">Location</div>
-            <span class="contact-value">Remote / Worldwide</span>
-          </div>
-
-          <div class="contact-card">
-            <div class="contact-icon"><i class="fas fa-clock"></i></div>
-            <div class="contact-label">Availability</div>
-            <span class="contact-value">24/7</span>
+      <div class="project-card">
+        <div class="project-image">
+          <img src="assets/Taqwa.png" alt="Task Management App" />
+          <div class="project-overlay">
+            <div class="project-links">
+              <a href="https://taqwa.services/" class="project-link" title="Live Demo">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
           </div>
         </div>
+        <div class="project-content">
+          <div class="project-category">Business Website</div>
+          <h3 class="project-title">Taqwa Services Platform</h3>
+          <p class="project-description">
+            A professional service-based website designed to present digital solutions, streamline client
+            communication, and enhance online presence with a modern and responsive interface.
+          </p>
+          <div class="project-tech">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+          </div>
+        </div>
+      </div>
 
-        <!-- Right Side: Contact Form -->
-        <div class="contact-form-wrapper">
-          <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!');">
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">First Name</label>
-                <input type="text" class="form-input" placeholder="First Name" required />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Last Name</label>
-                <input type="text" class="form-input" placeholder="Last Name" required />
-              </div>
+      <div class="project-card">
+        <div class="project-image">
+          <img src="assets/Secret Wear.png" alt="Social Media Platform" />
+          <div class="project-overlay">
+            <div class="project-links">
+              <a href="https://secretwear.site/" class="project-link" title="Live Demo">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
             </div>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-category">E-Commerce Platform</div>
+          <h3 class="project-title">SecretWear Online Store</h3>
+          <p class="project-description">
+            A modern fashion e-commerce website designed to showcase trendy products, provide a smooth shopping
+            experience, and enhance user engagement with a clean and responsive interface.
+          </p>
+          <div class="project-tech">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>Custom Liquid</span>
+          </div>
+        </div>
+      </div>
 
+      <div class="project-card">
+        <div class="project-image">
+          <img src="assets/Arqi Lounging.png" alt="Payment Gateway" />
+          <div class="project-overlay">
+            <div class="project-links">
+              <a href="https://arqilounging.com/" class="project-link" title="Live Demo">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-category">Business Website</div>
+          <h3 class="project-title">Arqi Lounging Platform</h3>
+          <p class="project-description">
+            A modern and elegant website designed to showcase premium lounging experiences, services, and brand
+            identity with a smooth and responsive user interface.
+          </p>
+          <div class="project-tech">
+            <span>Shopify</span>
+            <span>Liquid</span>
+            <span>Shopify Apps & Integrations</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-image">
+          <img src="assets/Bubu lab.png" alt="AI Content Generator" />
+          <div class="project-overlay">
+            <div class="project-links">
+              <a href="https://www.bubulabstore.com/" class="project-link" title="Live Demo">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-category">E-Commerce Website</div>
+          <h3 class="project-title">Bubulab Store</h3>
+          <p class="project-description">
+            A modern WordPress-based e-commerce website designed to showcase products, enhance user experience, and
+            provide smooth navigation with a clean and responsive layout.
+          </p>
+          <div class="project-tech">
+            <span>WordPress</span>
+            <span>Plugins & Integrations</span>
+            <span>Elementor / Page Builder</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-image">
+          <img src="assets/End.png" alt="Portfolio CMS" />
+          <div class="project-overlay">
+            <div class="project-links">
+              <a href="https://www.endclothing.com/gb" class="project-link" title="Live Demo">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-category">E-Commerce Platform</div>
+          <h3 class="project-title">END Clothing Store</h3>
+          <p class="project-description">
+            A high-performance fashion e-commerce website designed to showcase premium products, deliver a seamless
+            shopping experience, and handle large-scale user traffic with a clean and modern interface.
+          </p>
+          <div class="project-tech">
+            <span>Custom Liquid</span>
+            <span>HTML</span>
+            <span>CSS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section" id="contact">
+    <div class="section-header">
+      <span class="section-label">// Connect</span>
+      <h2 class="section-title">Get In Touch</h2>
+    </div>
+
+    <div class="contact-container">
+      <div class="contact-info">
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-label">Email</div>
+          <a href="mailto:shoaibhanif163@gmail.com" class="contact-value">shoaibhanif163@gmail.com</a>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <div class="contact-label">Phone</div>
+          <a href="tel:+923007364016" class="contact-value">+92 300 7364016</a>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-label">Location</div>
+          <span class="contact-value">Remote / Worldwide</span>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-clock"></i></div>
+          <div class="contact-label">Availability</div>
+          <span class="contact-value">24/7</span>
+        </div>
+      </div>
+
+      <div class="contact-form-wrapper">
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+          <div class="form-row">
             <div class="form-group">
-              <label class="form-label">Email Address</label>
-              <input type="email" class="form-input" placeholder="Email@example.com" required />
+              <label class="form-label">First Name</label>
+              <input type="text" class="form-input" placeholder="First Name" required />
             </div>
-
             <div class="form-group">
-              <label class="form-label">Subject</label>
-              <input type="text" class="form-input" placeholder="Subject" required />
+              <label class="form-label">Last Name</label>
+              <input type="text" class="form-input" placeholder="Last Name" required />
             </div>
+          </div>
 
-            <div class="form-group">
-              <label class="form-label">Message</label>
-              <textarea class="form-textarea" placeholder="Tell me about your project..." required></textarea>
-            </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" placeholder="Email@example.com" required />
+          </div>
 
-            <button type="submit" class="submit-btn">
-              <i class="fas fa-paper-plane"></i> Send Message
-            </button>
-          </form>
-        </div>
+          <div class="form-group">
+            <label class="form-label">Subject</label>
+            <input type="text" class="form-input" placeholder="Subject" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea class="form-textarea" placeholder="Tell me about your project..." required></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </form>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-      <div class="footer-bottom">
-        <p class="footer-copyright">© 2024 <span>Muhammad Shoaib</span>. All rights reserved.</p>
-        <a href="#" class="footer-backtop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' }); return false;">
-          <span>Back to Top</span> <i class="fas fa-arrow-up"></i>
-        </a>
-      </div>
-    </footer>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p class="footer-copyright">© 2024 <span>Muhammad Shoaib</span>. All rights reserved.</p>
+      <a href="#" class="footer-backtop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' }); return false;">
+        <span>Back to Top</span> <i class="fas fa-arrow-up"></i>
+      </a>
+    </div>
+  </footer>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      // Mobile Menu Toggle
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileNav = document.getElementById('mobileNav');
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+      menuToggle.addEventListener('click', function () {
+        this.classList.toggle('active');
+        mobileNav.classList.toggle('active');
+      });
+
+      // Close menu when clicking on a link
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          menuToggle.classList.remove('active');
+          mobileNav.classList.remove('active');
+        });
+      });
+
+      // Sticky Header Effect
+      const header = document.getElementById('header');
+      let lastScroll = 0;
+
+      window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+
+        if (currentScroll > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+
+        lastScroll = currentScroll;
+      });
+
+      // Active Section Highlight
+      const sections = document.querySelectorAll('section[id], div[id]');
+      const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+
+      window.addEventListener('scroll', () => {
+        let current = '';
+
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (pageYOffset >= (sectionTop - 200)) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href').slice(1) === current) {
+            link.classList.add('active');
+          }
+        });
+      });
+
       // Skills Section Animation
       const skillCards = document.querySelectorAll('.skill-card');
 
