@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import './LandingPage.css';
+import React, { useState, useEffect } from "react";
+import "./LandingPage.css";
 
 const LandingPage = () => {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
@@ -11,7 +11,7 @@ const LandingPage = () => {
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
+    const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
@@ -34,7 +34,9 @@ const LandingPage = () => {
       >
         <div className="toggle-slider">
           <div className="toggle-circle">
-            <i className={`fas ${theme === 'light' ? 'fa-sun' : 'fa-moon'}`}></i>
+            <i
+              className={`fas ${theme === "light" ? "fa-sun" : "fa-moon"}`}
+            ></i>
           </div>
         </div>
         <span className="theme-label">Theme</span>
@@ -87,20 +89,12 @@ const LandingPage = () => {
             GitHub
           </a>
 
-          <a
-            href="/portfolio"
-            className="btn btn-portfolio"
-          >
+          <a href="/portfolio" className="btn btn-portfolio">
             <i className="fas fa-briefcase"></i>
             Portfolio
           </a>
 
-          <a
-            href="/assets/Muhammad Shoaib Professional Resume (2).pdf"
-            className="btn btn-resume"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="/resume" className="btn btn-resume">
             <i className="fas fa-file-download"></i>
             Resume
           </a>
