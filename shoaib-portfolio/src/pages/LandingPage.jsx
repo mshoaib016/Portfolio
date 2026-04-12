@@ -47,7 +47,7 @@ const LandingPage = () => {
         <div className="profile-wrapper">
           <div className="profile-ring"></div>
           <img
-            src="/assets/Shoaib.jpeg"
+            src="/assets/shoaib.jpeg"
             alt="Muhammad Shoaib"
             className="profile-img"
           />

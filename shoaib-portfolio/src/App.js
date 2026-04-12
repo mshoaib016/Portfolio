@@ -7,10 +7,13 @@ import ResumeViewer from "./pages/ResumeViewer";
 import "./App.css";
 
 function App() {
+  // Localhost ke liye empty, production ke liye basename
+  const basename =
+    process.env.NODE_ENV === "production" ? "/shoaib-portfolio" : "";
+
   return (
     <HelmetProvider>
-      <Router basename="/shoaib-portfolio">
-        {" "}
+      <Router basename={basename}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
