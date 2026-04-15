@@ -253,7 +253,7 @@
   content: "";
   position: absolute;
   inset: 3px;
-  background: #f0f4f8;
+  background: var(--bg-primary); /* ← YEH KARO */
   border-radius: 50%;
 }
 
