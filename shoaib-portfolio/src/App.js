@@ -9,7 +9,7 @@ import "./App.css";
 function App() {
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/Portfolio">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
