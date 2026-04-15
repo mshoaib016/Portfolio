@@ -89,12 +89,12 @@ const LandingPage = () => {
             GitHub
           </a>
 
-          <a href="/portfolio" className="btn btn-portfolio">
+          <a href="/Portfolio/portfolio" className="btn btn-portfolio">
             <i className="fas fa-briefcase"></i>
             Portfolio
           </a>
 
-          <a href="/resume" className="btn btn-resume">
+          <a href="/Portfolio/resume" className="btn btn-resume">
             <i className="fas fa-file-download"></i>
             Resume
           </a>
