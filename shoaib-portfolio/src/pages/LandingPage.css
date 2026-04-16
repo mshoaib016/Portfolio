@@ -60,7 +60,6 @@
   overflow-x: hidden;
 }
 
-/* Animated Background Shapes */
 .bg-shapes {
   position: fixed;
   width: 100%;
@@ -135,7 +134,6 @@
   }
 }
 
-/* Theme Toggle - Animation from right */
 .theme-toggle {
   position: fixed;
   top: 25px;
@@ -152,7 +150,6 @@
   z-index: 1000;
   backdrop-filter: blur(10px);
   background: var(--card-bg);
-  /* Animation from right */
   opacity: 0;
   transform: translateX(100px);
   animation: slideFromRight 1.2s ease forwards;
@@ -210,7 +207,6 @@
   font-weight: 600;
 }
 
-/* Main Container */
 .landing-page .container {
   text-align: center;
   padding: 40px 20px;
@@ -220,12 +216,10 @@
   position: relative;
 }
 
-/* Profile Image - Animation from top */
 .profile-wrapper {
   position: relative;
   display: inline-block;
   margin-bottom: 30px;
-  /* Animation from top */
   opacity: 0;
   transform: translateY(-100px);
   animation: slideFromTop 1.2s ease forwards;
@@ -290,7 +284,6 @@
   border-radius: 50%;
 }
 
-/* Typography - Zoom In Animations */
 .landing-page h1 {
   font-size: 2.8rem;
   font-weight: 800;
@@ -349,7 +342,6 @@
   }
 }
 
-/* Status Badge - Zoom In */
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -438,7 +430,6 @@
   left: 100%;
 }
 
-/* Buttons one by one animation delays */
 .btn-upwork {
   background: linear-gradient(135deg, #14a800, #0d7a00);
   color: white;
@@ -524,41 +515,3 @@
     height: 200px;
   }
 }
-
-/* Old Animations - Commented out to keep original code */
-/*
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.landing-page .container > * {
-  animation: fadeInUp 0.6s ease forwards;
-  opacity: 0;
-}
-
-.profile-wrapper {
-  animation-delay: 0.1s;
-}
-.status-badge {
-  animation-delay: 0.2s;
-}
-.landing-page h1 {
-  animation-delay: 0.3s;
-}
-.subtitle {
-  animation-delay: 0.4s;
-}
-.description {
-  animation-delay: 0.5s;
-}
-.buttons-container {
-  animation-delay: 0.6s;
-}
-*/
