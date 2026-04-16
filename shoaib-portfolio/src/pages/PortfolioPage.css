@@ -373,7 +373,7 @@ body {
   grid-template-columns: 1fr;
   gap: 40px;
   align-items: center;
-  padding: 40px 0 60px;
+  padding: 85px 0 0;
 }
 
 @media (min-width: 1024px) {
