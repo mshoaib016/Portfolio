@@ -307,7 +307,7 @@ const PortfolioPage = () => {
             <div className="card">
               <div className="profile-image-wrapper">
                 <img
-                  src="/assets/Gemini_Generated_Image_55mw555mw555mw55.png"
+                  src="/Portfolio/assets/Gemini_Generated_Image_55mw555mw555mw55.png"
                   alt="Muhammad Shoaib"
                   className="profile-image"
                 />
@@ -871,7 +871,7 @@ const PortfolioPage = () => {
           <div className="projects-grid">
             <div className="project-card">
               <div className="project-image">
-                <img src="/assets/Globaxify.png" alt="Globaxify" />
+                <img src="/Portfolio/assets/Globaxify.png" alt="Globaxify" />
                 <div className="project-overlay">
                   <div className="project-links">
                     <a
@@ -901,7 +901,7 @@ const PortfolioPage = () => {
 
             <div className="project-card">
               <div className="project-image">
-                <img src="/assets/Taqwa.png" alt="Taqwa" />
+                <img src="/Portfolio/assets/Taqwa.png" alt="Taqwa" />
                 <div className="project-overlay">
                   <div className="project-links">
                     <a
@@ -931,7 +931,7 @@ const PortfolioPage = () => {
 
             <div className="project-card">
               <div className="project-image">
-                <img src="/assets/Secret Wear.png" alt="Secret Wear" />
+                <img src="/Portfolio/assets/Secret Wear.png" alt="Secret Wear" />
                 <div className="project-overlay">
                   <div className="project-links">
                     <a
@@ -961,7 +961,7 @@ const PortfolioPage = () => {
 
             <div className="project-card">
               <div className="project-image">
-                <img src="/assets/Arqi Lounging.png" alt="Arqi Lounging" />
+                <img src="/Portfolio/assets/Arqi Lounging.png" alt="Arqi Lounging" />
                 <div className="project-overlay">
                   <div className="project-links">
                     <a
@@ -991,7 +991,7 @@ const PortfolioPage = () => {
 
             <div className="project-card">
               <div className="project-image">
-                <img src="/assets/Bubu lab.png" alt="Bubu Lab" />
+                <img src="/Portfolio/assets/Bubu lab.png" alt="Bubu Lab" />
                 <div className="project-overlay">
                   <div className="project-links">
                     <a
@@ -1021,7 +1021,7 @@ const PortfolioPage = () => {
 
             <div className="project-card">
               <div className="project-image">
-                <img src="/assets/End.png" alt="END Clothing" />
+                <img src="/Portfolio/assets/End.png" alt="END Clothing" />
                 <div className="project-overlay">
                   <div className="project-links">
                     <a
