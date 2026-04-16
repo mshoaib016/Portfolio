@@ -32,9 +32,9 @@ const ResumeViewer = () => {
         <div className="mobile-only">
           <div className="mobile-resume">
             <i className="fas fa-file-pdf"></i>
-            <p>PDF preview mobile par support nahi hota</p>
+            <p>Muhammad Shoaib Resume</p>
             <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className="view-btn">
-              <i className="fas fa-eye"></i> Resume Kholo
+              <i className="fas fa-eye"></i> Open Resume
             </a>
           </div>
         </div>
