@@ -2,6 +2,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background: #1a1a2e; /* ← YEH ADD KARO */
 }
 
 .toolbar {
@@ -31,4 +32,5 @@
   flex: 1;
   width: 100%;
   border: none;
+  background: #fff; /* ← YEH BHI ADD KARO */
 }

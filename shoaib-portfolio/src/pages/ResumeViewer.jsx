@@ -3,15 +3,12 @@ import { Helmet } from "react-helmet-async";
 import "./ResumeViewer.css";
 
 const ResumeViewer = () => {
+  const pdfUrl = "https://mshoaib016.github.io/Portfolio/assets/resume.pdf";
+
   return (
     <>
       <Helmet>
         <title>Resume | Muhammad Shoaib</title>
-        <link
-          rel="icon"
-          type="image/png"
-          href="/Portfolio/assets/favicon.png"
-        />
       </Helmet>
 
       <div className="resume-viewer">
@@ -19,17 +16,13 @@ const ResumeViewer = () => {
           <a href="/Portfolio/" className="back-btn">
             <i className="fas fa-arrow-left"></i> Back to Home
           </a>
-          <a
-            href="/Portfolio/assets/Muhammad Shoaib Professional Resume (2).pdf"
-            download
-            className="download-btn"
-          >
+          <a href={pdfUrl} download className="download-btn">
             <i className="fas fa-download"></i> Download
           </a>
         </div>
 
         <iframe
-          src="/Portfolio/assets/Muhammad Shoaib Professional Resume (2).pdf"
+          src={`https://docs.google.com/viewer?url=${pdfUrl}&embedded=true`}
           title="Resume"
           className="pdf-frame"
         />
