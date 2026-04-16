@@ -34,3 +34,64 @@
   border: none;
   background: #fff; /* ← YEH BHI ADD KARO */
 }
+
+.desktop-only {
+  display: flex;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: flex;
+    flex: 1;
+  }
+}
+
+.mobile-resume {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: #1a1a2e;
+  color: white;
+  text-align: center;
+  padding: 40px;
+}
+
+.mobile-resume i {
+  font-size: 4rem;
+  color: #00d4ff;
+}
+
+.mobile-resume p {
+  color: #888;
+  font-size: 1rem;
+}
+
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: #00d4ff;
+  color: #000;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.view-btn:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
