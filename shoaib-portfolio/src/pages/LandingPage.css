@@ -135,7 +135,7 @@
   }
 }
 
-/* Theme Toggle */
+/* Theme Toggle - Animation from right */
 .theme-toggle {
   position: fixed;
   top: 25px;
@@ -152,6 +152,22 @@
   z-index: 1000;
   backdrop-filter: blur(10px);
   background: var(--card-bg);
+  /* Animation from right */
+  opacity: 0;
+  transform: translateX(100px);
+  animation: slideFromRight 1.2s ease forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes slideFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .theme-toggle:hover {
@@ -204,11 +220,27 @@
   position: relative;
 }
 
-/* Profile Image */
+/* Profile Image - Animation from top */
 .profile-wrapper {
   position: relative;
   display: inline-block;
   margin-bottom: 30px;
+  /* Animation from top */
+  opacity: 0;
+  transform: translateY(-100px);
+  animation: slideFromTop 1.2s ease forwards;
+  animation-delay: 0.3s;
+}
+
+@keyframes slideFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .profile-img {
@@ -254,11 +286,11 @@
   content: "";
   position: absolute;
   inset: 3px;
-  background: var(--bg-primary); /* ← YEH KARO */
+  background: var(--bg-primary);
   border-radius: 50%;
 }
 
-/* Typography */
+/* Typography - Zoom In Animations */
 .landing-page h1 {
   font-size: 2.8rem;
   font-weight: 800;
@@ -272,6 +304,11 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -2px;
+  /* Zoom In Animation */
+  opacity: 0;
+  transform: scale(0.5);
+  animation: zoomIn 0.8s ease forwards;
+  animation-delay: 0.6s;
 }
 
 .subtitle {
@@ -281,6 +318,11 @@
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 3px;
+  /* Zoom In Animation */
+  opacity: 0;
+  transform: scale(0.5);
+  animation: zoomIn 0.8s ease forwards;
+  animation-delay: 0.7s;
 }
 
 .description {
@@ -289,6 +331,61 @@
   line-height: 1.7;
   margin-bottom: 40px;
   padding: 0 20px;
+  /* Zoom In Animation */
+  opacity: 0;
+  transform: scale(0.5);
+  animation: zoomIn 0.8s ease forwards;
+  animation-delay: 0.8s;
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Status Badge - Zoom In */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card-bg);
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  backdrop-filter: blur(10px);
+  /* Zoom In Animation */
+  opacity: 0;
+  transform: scale(0.5);
+  animation: zoomIn 0.8s ease forwards;
+  animation-delay: 0.5s;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* Buttons */
@@ -315,6 +412,10 @@
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
+  /* Zoom In Animation */
+  opacity: 0;
+  transform: scale(0.5);
+  animation: zoomIn 0.8s ease forwards;
 }
 
 .btn::before {
@@ -337,26 +438,19 @@
   left: 100%;
 }
 
+/* Buttons one by one animation delays */
 .btn-upwork {
   background: linear-gradient(135deg, #14a800, #0d7a00);
   color: white;
   box-shadow: 0 4px 15px rgba(20, 168, 0, 0.3);
-}
-
-.btn-upwork:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(20, 168, 0, 0.4);
+  animation-delay: 1.0s;
 }
 
 .btn-github {
   background: linear-gradient(135deg, #333, #24292e);
   color: white;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.btn-github:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  animation-delay: 1.2s;
 }
 
 .btn-portfolio {
@@ -367,17 +461,29 @@
   );
   color: white;
   box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
-}
-
-.btn-portfolio:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+  animation-delay: 1.4s;
 }
 
 .btn-resume {
   background: var(--card-bg);
   color: var(--text-primary);
   border: 2px solid var(--border-color);
+  animation-delay: 1.6s;
+}
+
+.btn-upwork:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(20, 168, 0, 0.4);
+}
+
+.btn-github:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn-portfolio:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
 }
 
 .btn-resume:hover {
@@ -389,40 +495,6 @@
 
 .btn i {
   font-size: 1.1rem;
-}
-
-/* Status Badge */
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--card-bg);
-  padding: 8px 16px;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  margin-bottom: 30px;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 12px var(--shadow-color);
-  backdrop-filter: blur(10px);
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background: #10b981;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
 }
 
 /* Responsive */
@@ -453,7 +525,8 @@
   }
 }
 
-/* Animations */
+/* Old Animations - Commented out to keep original code */
+/*
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -488,3 +561,4 @@
 .buttons-container {
   animation-delay: 0.6s;
 }
+*/
