@@ -1,6 +1,6 @@
 # Muhammad Shoaib — Portfolio 🚀
 
-![Portfolio Preview](./public/assets/home%20page.png)
+![Portfolio Preview](https://raw.githubusercontent.com/mshoaib016/Portfolio/main/public/assets/my%20path.png)
 
 > A modern, responsive personal portfolio built with React.js — showcasing my skills, projects, and experience as a Frontend Developer.
 
