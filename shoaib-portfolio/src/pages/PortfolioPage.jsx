@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import "./PortfolioPage.css";
 
 const PortfolioPage = () => {
@@ -97,9 +98,28 @@ const PortfolioPage = () => {
     };
   }, []);
 
+  const form = useRef();
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    alert("Message sent successfully!");
+
+    emailjs
+      .sendForm(
+        "service_kq65z9n",
+        "template_u8rbf6c",
+        form.current,
+        "DIRvnaJDTz5kXRHxI",
+      )
+      .then(
+        () => {
+          alert("Message sent successfully!");
+          form.current.reset();
+        },
+        (error) => {
+          alert("Failed to send message.");
+          console.log(error.text);
+        },
+      );
   };
 
   return (
@@ -931,7 +951,10 @@ const PortfolioPage = () => {
 
             <div className="project-card">
               <div className="project-image">
-                <img src="/Portfolio/assets/Secret Wear.png" alt="Secret Wear" />
+                <img
+                  src="/Portfolio/assets/Secret Wear.png"
+                  alt="Secret Wear"
+                />
                 <div className="project-overlay">
                   <div className="project-links">
                     <a
@@ -961,7 +984,10 @@ const PortfolioPage = () => {
 
             <div className="project-card">
               <div className="project-image">
-                <img src="/Portfolio/assets/Arqi Lounging.png" alt="Arqi Lounging" />
+                <img
+                  src="/Portfolio/assets/Arqi Lounging.png"
+                  alt="Arqi Lounging"
+                />
                 <div className="project-overlay">
                   <div className="project-links">
                     <a
@@ -1101,7 +1127,11 @@ const PortfolioPage = () => {
             </div>
 
             <div className="contact-form-wrapper">
-              <form className="contact-form" onSubmit={handleFormSubmit}>
+              <form
+                ref={form}
+                className="contact-form"
+                onSubmit={handleFormSubmit}
+              >
                 <div className="form-row">
                   <div className="form-group">
                     <label className="form-label">First Name</label>
