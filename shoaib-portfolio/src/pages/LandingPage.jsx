@@ -61,7 +61,7 @@ const LandingPage = () => {
 
         {/* Content */}
         <h1>Muhammad Shoaib</h1>
-        <p className="subtitle">Full Stack Developer</p>
+        <p className="subtitle">Frontend Developer</p>
         <p className="description">
           Crafting digital experiences with modern technologies. Specialized in
           React, Node.js, and cloud solutions.
