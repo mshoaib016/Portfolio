@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import emailjs from "@emailjs/browser";
 import "./PortfolioPage.css";
 
 const PortfolioPage = () => {
@@ -100,27 +99,27 @@ const PortfolioPage = () => {
 
   const form = useRef();
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+  const handleFormSubmit = async (e) => {
+  e.preventDefault();
 
-    emailjs
-      .sendForm(
-        "service_kq65z9n",
-        "template_u8rbf6c",
-        form.current,
-        "DIRvnaJDTz5kXRHxI",
-      )
-      .then(
-        () => {
-          alert("Message sent successfully!");
-          form.current.reset();
-        },
-        (error) => {
-          alert("Failed to send message.");
-          console.log(error.text);
-        },
-      );
-  };
+  const formData = new FormData(form.current);
+  formData.append("access_key", "fd167fc0-b86c-4159-92c8-353d005e1dee");
+
+  const response = await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await response.json();
+
+  if (data.success) {
+    alert("Message sent successfully!");
+    form.current.reset();
+  } else {
+    alert("Failed to send. Please try again.");
+    console.log(data);
+  }
+};
 
   return (
     <div className="portfolio-page">
@@ -435,24 +434,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar react"
-                    data-percent="90"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar react" data-percent="90" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon react">
-                    <i className="fab fa-react"></i>
-                  </div>
+                  <div className="skill-icon react"><i className="fab fa-react"></i></div>
                   <span className="skill-percent">90%</span>
                 </div>
               </div>
@@ -463,24 +449,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar node"
-                    data-percent="85"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar node" data-percent="85" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon node">
-                    <i className="fab fa-node-js"></i>
-                  </div>
+                  <div className="skill-icon node"><i className="fab fa-node-js"></i></div>
                   <span className="skill-percent">85%</span>
                 </div>
               </div>
@@ -491,24 +464,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar js"
-                    data-percent="95"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar js" data-percent="95" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon js">
-                    <i className="fab fa-js"></i>
-                  </div>
+                  <div className="skill-icon js"><i className="fab fa-js"></i></div>
                   <span className="skill-percent">95%</span>
                 </div>
               </div>
@@ -519,24 +479,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar ts"
-                    data-percent="80"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar ts" data-percent="80" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon ts">
-                    <i className="fab fa-js"></i>
-                  </div>
+                  <div className="skill-icon ts"><i className="fab fa-js"></i></div>
                   <span className="skill-percent">80%</span>
                 </div>
               </div>
@@ -547,24 +494,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar html"
-                    data-percent="95"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar html" data-percent="95" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon html">
-                    <i className="fab fa-html5"></i>
-                  </div>
+                  <div className="skill-icon html"><i className="fab fa-html5"></i></div>
                   <span className="skill-percent">95%</span>
                 </div>
               </div>
@@ -575,24 +509,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar css"
-                    data-percent="90"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar css" data-percent="90" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon css">
-                    <i className="fab fa-css3-alt"></i>
-                  </div>
+                  <div className="skill-icon css"><i className="fab fa-css3-alt"></i></div>
                   <span className="skill-percent">90%</span>
                 </div>
               </div>
@@ -603,24 +524,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar shopify"
-                    data-percent="88"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar shopify" data-percent="88" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon shopify">
-                    <i className="fab fa-shopify"></i>
-                  </div>
+                  <div className="skill-icon shopify"><i className="fab fa-shopify"></i></div>
                   <span className="skill-percent">88%</span>
                 </div>
               </div>
@@ -631,24 +539,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar wordpress"
-                    data-percent="82"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar wordpress" data-percent="82" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon wordpress">
-                    <i className="fab fa-wordpress"></i>
-                  </div>
+                  <div className="skill-icon wordpress"><i className="fab fa-wordpress"></i></div>
                   <span className="skill-percent">82%</span>
                 </div>
               </div>
@@ -659,24 +554,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar ebay"
-                    data-percent="75"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar ebay" data-percent="75" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon ebay">
-                    <i className="fab fa-ebay"></i>
-                  </div>
+                  <div className="skill-icon ebay"><i className="fab fa-ebay"></i></div>
                   <span className="skill-percent">75%</span>
                 </div>
               </div>
@@ -687,24 +569,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar amazon"
-                    data-percent="78"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar amazon" data-percent="78" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon amazon">
-                    <i className="fab fa-amazon"></i>
-                  </div>
+                  <div className="skill-icon amazon"><i className="fab fa-amazon"></i></div>
                   <span className="skill-percent">78%</span>
                 </div>
               </div>
@@ -715,24 +584,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar walmart"
-                    data-percent="70"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar walmart" data-percent="70" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon walmart">
-                    <i className="fas fa-store"></i>
-                  </div>
+                  <div className="skill-icon walmart"><i className="fas fa-store"></i></div>
                   <span className="skill-percent">70%</span>
                 </div>
               </div>
@@ -743,24 +599,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar social"
-                    data-percent="85"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar social" data-percent="85" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon social">
-                    <i className="fas fa-share-alt"></i>
-                  </div>
+                  <div className="skill-icon social"><i className="fas fa-share-alt"></i></div>
                   <span className="skill-percent">85%</span>
                 </div>
               </div>
@@ -771,24 +614,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar digital"
-                    data-percent="88"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar digital" data-percent="88" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon digital">
-                    <i className="fas fa-bullhorn"></i>
-                  </div>
+                  <div className="skill-icon digital"><i className="fas fa-bullhorn"></i></div>
                   <span className="skill-percent">88%</span>
                 </div>
               </div>
@@ -799,24 +629,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar meta"
-                    data-percent="82"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar meta" data-percent="82" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon meta">
-                    <i className="fab fa-meta"></i>
-                  </div>
+                  <div className="skill-icon meta"><i className="fab fa-meta"></i></div>
                   <span className="skill-percent">82%</span>
                 </div>
               </div>
@@ -827,24 +644,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar tiktok"
-                    data-percent="80"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar tiktok" data-percent="80" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon tiktok">
-                    <i className="fab fa-tiktok"></i>
-                  </div>
+                  <div className="skill-icon tiktok"><i className="fab fa-tiktok"></i></div>
                   <span className="skill-percent">80%</span>
                 </div>
               </div>
@@ -855,24 +659,11 @@ const PortfolioPage = () => {
             <div className="skill-card">
               <div className="circular-progress">
                 <svg viewBox="0 0 140 140">
-                  <circle
-                    className="progress-bg"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
-                  <circle
-                    className="progress-bar content"
-                    data-percent="90"
-                    cx="70"
-                    cy="70"
-                    r="60"
-                  ></circle>
+                  <circle className="progress-bg" cx="70" cy="70" r="60"></circle>
+                  <circle className="progress-bar content" data-percent="90" cx="70" cy="70" r="60"></circle>
                 </svg>
                 <div className="progress-content">
-                  <div className="skill-icon content">
-                    <i className="fas fa-pen-nib"></i>
-                  </div>
+                  <div className="skill-icon content"><i className="fas fa-pen-nib"></i></div>
                   <span className="skill-percent">90%</span>
                 </div>
               </div>
@@ -894,11 +685,7 @@ const PortfolioPage = () => {
                 <img src="/Portfolio/assets/Globaxify.png" alt="Globaxify" />
                 <div className="project-overlay">
                   <div className="project-links">
-                    <a
-                      href="https://globaxify.online/"
-                      className="project-link"
-                      title="Live Demo"
-                    >
+                    <a href="https://globaxify.online/" className="project-link" title="Live Demo">
                       <i className="fas fa-external-link-alt"></i>
                     </a>
                   </div>
@@ -908,13 +695,10 @@ const PortfolioPage = () => {
                 <div className="project-category">Web Platform</div>
                 <h3 className="project-title">Globaxify Official Website</h3>
                 <p className="project-description">
-                  Modern business website designed to showcase services, team
-                  expertise, and client engagement with a clean UI.
+                  Modern business website designed to showcase services, team expertise, and client engagement with a clean UI.
                 </p>
                 <div className="project-tech">
-                  <span>HTML</span>
-                  <span>CSS</span>
-                  <span>JavaScript</span>
+                  <span>HTML</span><span>CSS</span><span>JavaScript</span>
                 </div>
               </div>
             </div>
@@ -924,11 +708,7 @@ const PortfolioPage = () => {
                 <img src="/Portfolio/assets/Taqwa.png" alt="Taqwa" />
                 <div className="project-overlay">
                   <div className="project-links">
-                    <a
-                      href="https://taqwa.services/"
-                      className="project-link"
-                      title="Live Demo"
-                    >
+                    <a href="https://taqwa.services/" className="project-link" title="Live Demo">
                       <i className="fas fa-external-link-alt"></i>
                     </a>
                   </div>
@@ -938,30 +718,20 @@ const PortfolioPage = () => {
                 <div className="project-category">Business Website</div>
                 <h3 className="project-title">Taqwa Services Platform</h3>
                 <p className="project-description">
-                  A professional service-based website designed to present
-                  digital solutions and enhance online presence.
+                  A professional service-based website designed to present digital solutions and enhance online presence.
                 </p>
                 <div className="project-tech">
-                  <span>HTML</span>
-                  <span>CSS</span>
-                  <span>JavaScript</span>
+                  <span>HTML</span><span>CSS</span><span>JavaScript</span>
                 </div>
               </div>
             </div>
 
             <div className="project-card">
               <div className="project-image">
-                <img
-                  src="/Portfolio/assets/Secret Wear.png"
-                  alt="Secret Wear"
-                />
+                <img src="/Portfolio/assets/Secret Wear.png" alt="Secret Wear" />
                 <div className="project-overlay">
                   <div className="project-links">
-                    <a
-                      href="https://secretwear.site/"
-                      className="project-link"
-                      title="Live Demo"
-                    >
+                    <a href="https://secretwear.site/" className="project-link" title="Live Demo">
                       <i className="fas fa-external-link-alt"></i>
                     </a>
                   </div>
@@ -971,30 +741,20 @@ const PortfolioPage = () => {
                 <div className="project-category">E-Commerce Platform</div>
                 <h3 className="project-title">SecretWear Online Store</h3>
                 <p className="project-description">
-                  A modern fashion e-commerce website designed to showcase
-                  trendy products with a smooth shopping experience.
+                  A modern fashion e-commerce website designed to showcase trendy products with a smooth shopping experience.
                 </p>
                 <div className="project-tech">
-                  <span>HTML</span>
-                  <span>CSS</span>
-                  <span>Custom Liquid</span>
+                  <span>HTML</span><span>CSS</span><span>Custom Liquid</span>
                 </div>
               </div>
             </div>
 
             <div className="project-card">
               <div className="project-image">
-                <img
-                  src="/Portfolio/assets/Arqi Lounging.png"
-                  alt="Arqi Lounging"
-                />
+                <img src="/Portfolio/assets/Arqi Lounging.png" alt="Arqi Lounging" />
                 <div className="project-overlay">
                   <div className="project-links">
-                    <a
-                      href="https://arqilounging.com/"
-                      className="project-link"
-                      title="Live Demo"
-                    >
+                    <a href="https://arqilounging.com/" className="project-link" title="Live Demo">
                       <i className="fas fa-external-link-alt"></i>
                     </a>
                   </div>
@@ -1004,13 +764,10 @@ const PortfolioPage = () => {
                 <div className="project-category">Business Website</div>
                 <h3 className="project-title">Arqi Lounging Platform</h3>
                 <p className="project-description">
-                  A modern and elegant website designed to showcase premium
-                  lounging experiences and brand identity.
+                  A modern and elegant website designed to showcase premium lounging experiences and brand identity.
                 </p>
                 <div className="project-tech">
-                  <span>Shopify</span>
-                  <span>Liquid</span>
-                  <span>Shopify Apps</span>
+                  <span>Shopify</span><span>Liquid</span><span>Shopify Apps</span>
                 </div>
               </div>
             </div>
@@ -1020,11 +777,7 @@ const PortfolioPage = () => {
                 <img src="/Portfolio/assets/Bubu lab.png" alt="Bubu Lab" />
                 <div className="project-overlay">
                   <div className="project-links">
-                    <a
-                      href="https://www.bubulabstore.com/"
-                      className="project-link"
-                      title="Live Demo"
-                    >
+                    <a href="https://www.bubulabstore.com/" className="project-link" title="Live Demo">
                       <i className="fas fa-external-link-alt"></i>
                     </a>
                   </div>
@@ -1034,13 +787,10 @@ const PortfolioPage = () => {
                 <div className="project-category">E-Commerce Website</div>
                 <h3 className="project-title">Bubulab Store</h3>
                 <p className="project-description">
-                  A modern WordPress-based e-commerce website designed to
-                  showcase products with smooth navigation.
+                  A modern WordPress-based e-commerce website designed to showcase products with smooth navigation.
                 </p>
                 <div className="project-tech">
-                  <span>WordPress</span>
-                  <span>Plugins</span>
-                  <span>Elementor</span>
+                  <span>WordPress</span><span>Plugins</span><span>Elementor</span>
                 </div>
               </div>
             </div>
@@ -1050,11 +800,7 @@ const PortfolioPage = () => {
                 <img src="/Portfolio/assets/End.png" alt="END Clothing" />
                 <div className="project-overlay">
                   <div className="project-links">
-                    <a
-                      href="https://www.endclothing.com/gb"
-                      className="project-link"
-                      title="Live Demo"
-                    >
+                    <a href="https://www.endclothing.com/gb" className="project-link" title="Live Demo">
                       <i className="fas fa-external-link-alt"></i>
                     </a>
                   </div>
@@ -1064,13 +810,10 @@ const PortfolioPage = () => {
                 <div className="project-category">E-Commerce Platform</div>
                 <h3 className="project-title">END Clothing Store</h3>
                 <p className="project-description">
-                  A high-performance fashion e-commerce website handling
-                  large-scale user traffic with modern interface.
+                  A high-performance fashion e-commerce website handling large-scale user traffic with modern interface.
                 </p>
                 <div className="project-tech">
-                  <span>Custom Liquid</span>
-                  <span>HTML</span>
-                  <span>CSS</span>
+                  <span>Custom Liquid</span><span>HTML</span><span>CSS</span>
                 </div>
               </div>
             </div>
@@ -1087,22 +830,15 @@ const PortfolioPage = () => {
           <div className="contact-container">
             <div className="contact-info">
               <div className="contact-card">
-                <div className="contact-icon">
-                  <i className="fas fa-envelope"></i>
-                </div>
+                <div className="contact-icon"><i className="fas fa-envelope"></i></div>
                 <div className="contact-label">Email</div>
-                <a
-                  href="mailto:shoaibhanif163@gmail.com"
-                  className="contact-value"
-                >
+                <a href="mailto:shoaibhanif163@gmail.com" className="contact-value">
                   shoaibhanif163@gmail.com
                 </a>
               </div>
 
               <div className="contact-card">
-                <div className="contact-icon">
-                  <i className="fas fa-phone"></i>
-                </div>
+                <div className="contact-icon"><i className="fas fa-phone"></i></div>
                 <div className="contact-label">Phone</div>
                 <a href="tel:+923007364016" className="contact-value">
                   +92 300 7364016
@@ -1110,33 +846,26 @@ const PortfolioPage = () => {
               </div>
 
               <div className="contact-card">
-                <div className="contact-icon">
-                  <i className="fas fa-map-marker-alt"></i>
-                </div>
+                <div className="contact-icon"><i className="fas fa-map-marker-alt"></i></div>
                 <div className="contact-label">Location</div>
                 <span className="contact-value">Remote / Worldwide</span>
               </div>
 
               <div className="contact-card">
-                <div className="contact-icon">
-                  <i className="fas fa-clock"></i>
-                </div>
+                <div className="contact-icon"><i className="fas fa-clock"></i></div>
                 <div className="contact-label">Availability</div>
                 <span className="contact-value">24/7</span>
               </div>
             </div>
 
             <div className="contact-form-wrapper">
-              <form
-                ref={form}
-                className="contact-form"
-                onSubmit={handleFormSubmit}
-              >
+              <form ref={form} className="contact-form" onSubmit={handleFormSubmit}>
                 <div className="form-row">
                   <div className="form-group">
                     <label className="form-label">First Name</label>
                     <input
                       type="text"
+                      name="from_name"
                       className="form-input"
                       placeholder="First Name"
                       required
@@ -1146,6 +875,7 @@ const PortfolioPage = () => {
                     <label className="form-label">Last Name</label>
                     <input
                       type="text"
+                      name="last_name"
                       className="form-input"
                       placeholder="Last Name"
                       required
@@ -1157,6 +887,7 @@ const PortfolioPage = () => {
                   <label className="form-label">Email Address</label>
                   <input
                     type="email"
+                    name="from_email"
                     className="form-input"
                     placeholder="Email@example.com"
                     required
@@ -1167,6 +898,7 @@ const PortfolioPage = () => {
                   <label className="form-label">Subject</label>
                   <input
                     type="text"
+                    name="subject"
                     className="form-input"
                     placeholder="Subject"
                     required
@@ -1176,6 +908,7 @@ const PortfolioPage = () => {
                 <div className="form-group">
                   <label className="form-label">Message</label>
                   <textarea
+                    name="message"
                     className="form-textarea"
                     placeholder="Tell me about your project..."
                     required
