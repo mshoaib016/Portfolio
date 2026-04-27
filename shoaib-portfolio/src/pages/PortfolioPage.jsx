@@ -326,7 +326,7 @@ const PortfolioPage = () => {
             <div className="card">
               <div className="profile-image-wrapper">
                 <img
-                  src="/Portfolio/assets/Gemini_Generated_Image_55mw555mw555mw55.png"
+                  src="/Portfolio/assets/Muhammad Shoaib.png"
                   alt="Muhammad Shoaib"
                   className="profile-image"
                 />
